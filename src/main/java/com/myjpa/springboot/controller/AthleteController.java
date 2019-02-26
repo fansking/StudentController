@@ -19,13 +19,13 @@ public class AthleteController {
     AthleteRepository athleteRepository;
     @ApiOperation(value ="通过id获取运动员的信息")
     @GetMapping("/findById/{id}")
-    public Athlete getStudentById(@PathVariable("id") Integer id){
+    public Athlete getAthleteById(@PathVariable("id") Integer id){
         Athlete athlete=athleteRepository.findById(id).orElse(null);
         return athlete;
     }
     @ApiOperation(value = "通过ID更新学生信息",notes="更改学生年龄和姓名")
     @RequestMapping(value="/updateById",method= RequestMethod.GET)
-    public Athlete updateStudent(@RequestParam("id") Integer id,@RequestParam("name") String name,@RequestParam("age") Integer age){
+    public Athlete updateAthlete(@RequestParam("id") Integer id,@RequestParam("name") String name,@RequestParam("age") Integer age){
         Athlete athlete=athleteRepository.findById(id).orElse(null);
         athlete.setAge(age);
         athlete.setName(name);
@@ -35,13 +35,13 @@ public class AthleteController {
     @ApiOperation(value="插入一个运动员")
     //插入一个学生
     @PostMapping("/insert")
-    public Athlete insertStudent(Athlete athlete){
+    public Athlete insertAthlete(Athlete athlete){
         Athlete save=athleteRepository.save(athlete);
         return save;
     }
     @ApiOperation(value="寻查找所有的运动员信息")
     @GetMapping("/findAll")
-    public List<Athlete> getStuList(){
+    public List<Athlete> getAthleteList(){
                return athleteRepository.findAll();
     }
 
