@@ -43,6 +43,12 @@
 <version>4.0.0</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/top.jfunc.common/network-converter -->
+        <dependency>
+            <groupId>top.jfunc.common</groupId>
+            <artifactId>network-converter</artifactId>
+            <version>1.8.0</version>
+        </dependency>
 
         <dependency>
             <groupId>mysql</groupId>

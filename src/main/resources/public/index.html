@@ -33,6 +33,13 @@
         <button ng-click="operatios[$index].Fun()">run</button>
     </li>
 </ul>
+                <ul>
+                    <li ng-repeat="bodyVariable in operatios[0].params.body.datavirable">
+                        <p>
+                        {{bodyVariable}}
+                        </p>
+                    </li>
+                </ul>
 <ul>
     <li ng-repeat="s in student">
         {{s}}
