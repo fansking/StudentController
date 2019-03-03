@@ -6,10 +6,7 @@ import com.myjpa.springboot.repository.TeamRepository;
 import com.myjpa.springboot.service.ApiService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "Team")
@@ -18,11 +15,24 @@ public class TeamController {
     ApiService service;
     @Autowired
     TeamRepository teamRepository;
-    @ApiOperation(value="增加一个队伍")
+    @ApiOperation(value="增加或更新一个队伍信息")
     @PostMapping("/insert")
     public Team insertAthlete(@RequestBody Team team){
         Team save=teamRepository.save(team);
         return save;
     }
+    @ApiOperation(value="通过队名查找一个队伍")
+    @GetMapping("/teamName/{name}")
+    public Team findTeamByName(@PathVariable String name){
+
+        return teamRepository.findTeamByName(name);
+    }
+    @ApiOperation(value="通过账号查找一个队伍")
+    @GetMapping("/teamAccount/{account}")
+    public Team findTeamByAccount(@PathVariable String account){
+
+        return teamRepository.findTeamByAccount(account);
+    }
+
 
 }

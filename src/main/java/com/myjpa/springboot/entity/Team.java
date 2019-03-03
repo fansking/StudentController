@@ -16,6 +16,8 @@ public class Team {
     private String name;
     //队伍账号
     @Id
+    @GeneratedValue
+    private Integer id;
     @Column
     private String account;
     @Column
@@ -25,6 +27,36 @@ public class Team {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "leader_identityNum")
     private Leader leader;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "coach_identityNum")
+    private Coach coach;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "doctor_identityNum")
+    private Doctor doctor;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+    }
+
+    public Coach getCoach() {
+        return coach;
+    }
+
+    public void setCoach(Coach coach) {
+        this.coach = coach;
+    }
 
     public Leader getLeader() {
         return leader;

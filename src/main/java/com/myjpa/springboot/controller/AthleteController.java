@@ -36,8 +36,7 @@ public class AthleteController {
     //插入一个学生
     @PostMapping("/insert")
     public Athlete insertAthlete(Athlete athlete){
-        Athlete save=athleteRepository.save(athlete);
-        return save;
+        return athleteRepository.save(athlete);
     }
     @ApiOperation(value="寻查找所有的运动员信息")
     @GetMapping("/findAll")
