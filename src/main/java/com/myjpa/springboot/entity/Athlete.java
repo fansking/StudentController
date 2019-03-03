@@ -28,7 +28,7 @@ public class Athlete {
     //文化成绩
     @Column
     private Integer scores;
-    //参加比赛的项目用逗号隔开，每次接收后，用字符串切割得到参加的项目，也可不用
+    //参加比赛的项目用逗号隔开，也可不用
     @Column
     private String competitionStr;
     @Transient

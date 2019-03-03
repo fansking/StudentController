@@ -33,6 +33,17 @@ public class Team {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "doctor_identityNum")
     private Doctor doctor;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "referee_identityNum")
+    private Doctor referee;
+
+    public Doctor getReferee() {
+        return referee;
+    }
+
+    public void setReferee(Doctor referee) {
+        this.referee = referee;
+    }
 
     public Integer getId() {
         return id;
