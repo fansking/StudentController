@@ -11,7 +11,11 @@ import java.util.List;
 @Table(name="Athletes")
 public class Athlete {
     @Id //主键,运动员号码，由系统自动生成
+    @GeneratedValue
     private Integer id;
+    @Column
+    private String athleteId;
+
     //年龄
     @Column
     private Integer age;
@@ -33,6 +37,17 @@ public class Athlete {
     private String competitionStr;
     @Transient
     private List<String> competitions;
+
+
+    public String getAthleteId() {
+        return athleteId;
+    }
+
+    public void setAthleteId(String athleteId) {
+        this.athleteId = athleteId;
+    }
+
+
 
     public Athlete() {
     }

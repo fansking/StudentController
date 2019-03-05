@@ -22,7 +22,9 @@ public class Team {
     private String account;
     @Column
     private String passWord="123456";
+
     @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="teamId")
     List<Athlete> athletes = new ArrayList<>();
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "leader_identityNum")
