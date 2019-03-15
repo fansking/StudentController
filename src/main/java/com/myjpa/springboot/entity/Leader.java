@@ -1,5 +1,7 @@
 package com.myjpa.springboot.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 @Entity
@@ -13,8 +15,7 @@ public class Leader {
     private String identityNum;
     @Column
     private String phoneNum;
-    @OneToOne(mappedBy = "leader")
-    private Team team;
+
     Leader(){
 
     }

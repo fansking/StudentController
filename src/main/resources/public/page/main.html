@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+    <title>主页面</title>
+</head>
+<body>
+<div ng-controller="mainCtrl">
+    <div class="content">
+        <div class="col-lg-10 col-lg-offset-1">
+            <div class="col-lg-10 col-lg-offset-1 panel panel-default">
+                <div class="panel-heading"><label class="row">请输入领队信息:</label></div>
+                <div class="panel-body">
+                <div style="font-size: 12px" class="form-group row">
+                    <label for="leaderName" class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">姓名:</label>
+                    <div class="col-lg-11">
+                        <input id="leaderName" class="form-control" type="text" placeholder="请输入领队姓名" ng-model="leader.name" style="" >
+                    </div>
+                </div>
+                <div style="font-size: 12px" class="form-group row">
+                    <label for="leaderPhoneNum" class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">手机号:</label>
+                    <div class="col-lg-11">
+                        <input id="leaderPhoneNum" class="form-control" type="text" placeholder="请输入领队手机号" ng-model="leader.phoneNum" style="" >
+                    </div>
+                </div>
+                <div style="font-size: 12px" class="form-group row">
+                    <label for="leaderIdentityNum" class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">身份证号:</label>
+                    <div class="col-lg-11">
+                        <input id="leaderIdentityNum" class="form-control" type="text" placeholder="请输入领队身份证号" ng-model="leader.identityNum" style="" >
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="col-lg-10 col-lg-offset-1 panel panel-default">
+                <div class="panel-heading"><label class="row">请输入队医信息:</label></div>
+                <div class="panel-body">
+                <div style="font-size: 12px" class="form-group row">
+                    <label for="doctorName" class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">姓名:</label>
+                    <div class="col-lg-11">
+                        <input id="doctorName" class="form-control" type="text" placeholder="请输入队医姓名" ng-model="doctor.name" style="" >
+                    </div>
+                </div>
+                <div style="font-size: 12px" class="form-group row">
+                    <label for="doctorPhoneNum" class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">手机号:</label>
+                    <div class="col-lg-11">
+                        <input id="doctorPhoneNum" class="form-control" type="text" placeholder="请输入队医手机号" ng-model="doctor.phoneNum" style="" >
+                    </div>
+                </div>
+                <div style="font-size: 12px" class="form-group row">
+                    <label for="doctorIdentityNum" class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">身份证号:</label>
+                    <div class="col-lg-11">
+                        <input id="doctorIdentityNum" class="form-control" type="text" placeholder="请输入队医身份证号" ng-model="doctor.identityNum" style="" >
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="col-lg-10 col-lg-offset-1 panel panel-default">
+                <div class="panel-heading"><label class="row">请输入裁判员信息:</label></div>
+                <div class="panel-body">
+                <div style="font-size: 12px" class="form-group row">
+                    <label for="refereeName" class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">姓名:</label>
+                    <div class="col-lg-11">
+                        <input id="refereeName" class="form-control" type="text" placeholder="请输入裁判员姓名" ng-model="referee.name" style="" >
+                    </div>
+                </div>
+                <div style="font-size: 12px" class="form-group row">
+                    <label for="refereePhoneNum" class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">手机号:</label>
+                    <div class="col-lg-11">
+                        <input id="refereePhoneNum" class="form-control" type="text" placeholder="请输入裁判员手机号" ng-model="referee.phoneNum" style="" >
+                    </div>
+                </div>
+                <div style="font-size: 12px" class="form-group row">
+                    <label for="refereeIdentityNum" class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">身份证号:</label>
+                    <div class="col-lg-11">
+                        <input id="refereeIdentityNum" class="form-control" type="text" placeholder="请输入裁判员身份证号" ng-model="referee.identityNum" style="" >
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="col-lg-10 col-lg-offset-1 panel panel-default">
+                <div class="panel-heading"><label class="row">请输入教练信息:</label></div>
+                <div class="panel-body">
+                <div style="font-size: 12px" class="form-group row">
+                    <label for="coachName" class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">姓名:</label>
+                    <div class="col-lg-11">
+                        <input id="coachName" class="form-control" type="text" placeholder="请输入教练姓名" ng-model="coach.name" style="" >
+                    </div>
+                </div>
+                    <div style="font-size: 12px" class="form-group row">
+                        <label for="coachIsMale" class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">性别:</label>
+                        <div class="col-lg-11">
+                            <select id="coachIsMale" class="form-control" ng-model="coach.isMale" ng-options="m for m in isMale" style="" ></select>
+                        </div>
+                    </div>
+                <div style="font-size: 12px" class="form-group row">
+                    <label for="coachPhoneNum" class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">手机号:</label>
+                    <div class="col-lg-11">
+                        <input id="coachPhoneNum" class="form-control" type="text" placeholder="请输入教练手机号" ng-model="coach.phoneNum" style="" >
+                    </div>
+                </div>
+                <div style="font-size: 12px" class="form-group row">
+                    <label for="coachIdentityNum" class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">身份证号:</label>
+                    <div class="col-lg-11">
+                        <input id="coachIdentityNum" class="form-control" type="text" placeholder="请输入教练身份证号" ng-model="coach.identityNum" style="" >
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="col-lg-10 col-lg-offset-1">
+                <div class="row"><label class="pull-left">请输入队员信息:</label><button class="btn btn-primary pull-right" ng-click="addAthlete()">增加一个队员</button></div>
+                <div ng-repeat="x in athletes" class="panel panel-default">
+                    <div class="panel-heading"><label>第{{$index+1}}个运动员的信息</label></div>
+                    <div class="panel-body">
+                        <div style="font-size: 12px" class="form-group row">
+                            <label class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">姓名:</label>
+                            <div class="col-lg-11">
+                                <input class="form-control" type="text" placeholder="请输入队员姓名" ng-model="x.name" style="" >
+                            </div>
+                        </div>
+                        <div style="font-size: 12px" class="form-group row">
+                            <label  class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">性别:</label>
+                            <div class="col-lg-11">
+                                <select  class="form-control" ng-model="x.isMale" ng-options="m for m in isMale" style="" ></select>
+                            </div>
+                        </div>
+                        <div style="font-size: 12px" class="form-group row">
+                            <label class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">年龄:</label>
+                            <div class="col-lg-11">
+                                <input class="form-control" type="text" placeholder="请输入队员年龄" ng-model="x.age" style="" >
+                            </div>
+                        </div>
+                        <div style="font-size: 12px" class="form-group row">
+                            <label class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">手机号:</label>
+                            <div class="col-lg-11">
+                                <input class="form-control" type="text" placeholder="请输入队员手机号" ng-model="x.phoneNum" style="" >
+                            </div>
+                        </div>
+                        <div style="font-size: 12px" class="form-group row">
+                            <label for="coachPhoneNum" class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">参加项目:</label>
+                            <div class="col-lg-11">
+                                <div ng-repeat="compet in maleCompetitions" ng-show="x.isMale==='男'">
+                                    <input type="checkbox" ng-click="selectCompet(compet,x)" >{{compet}}
+                                </div>
+                                <div ng-repeat="compet in femaleCompetitions" ng-show="x.isMale!=='男'">
+                                    <input type="checkbox" ng-click="selectCompet(compet,x)" >{{compet}}
+                                </div>
+                            </div>
+                        </div>
+                        <div style="font-size: 12px" class="form-group row">
+                            <label for="coachIdentityNum" class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">身份证号:</label>
+                            <div class="col-lg-11">
+                                <input class="form-control" type="text" placeholder="请输入队员身份证号" ng-model="x.identityNum" style="" >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="row btn btn-primary col-lg-1 col-lg-offset-10" ng-click="insert()">提交信息</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

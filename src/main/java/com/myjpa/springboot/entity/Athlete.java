@@ -1,6 +1,8 @@
 package com.myjpa.springboot.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -9,6 +11,7 @@ import java.util.List;
 @Entity
 //指定和哪个数据表对应
 @Table(name="Athletes")
+
 public class Athlete {
     @Id //主键,运动员号码，由系统自动生成
     @GeneratedValue

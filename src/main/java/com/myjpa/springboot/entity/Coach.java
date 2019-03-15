@@ -1,10 +1,13 @@
 package com.myjpa.springboot.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 @Entity
 //指定和哪个数据表对应
 @Table(name="Coaches")
+
 public class Coach {
     @Column
     private String name;
@@ -13,8 +16,7 @@ public class Coach {
     private String identityNum;
     @Column
     private String phoneNum;
-    @OneToOne(mappedBy = "coach")
-    private Team team;
+
     private Boolean isMale;
 
     public Coach() {
@@ -44,13 +46,6 @@ public class Coach {
         this.phoneNum = phoneNum;
     }
 
-    public Team getTeam() {
-        return team;
-    }
-
-    public void setTeam(Team team) {
-        this.team = team;
-    }
 
     public Boolean getMale() {
         return isMale;

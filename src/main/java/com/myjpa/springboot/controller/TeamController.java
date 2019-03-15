@@ -8,8 +8,10 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping(value = "Team")
+@RequestMapping(value = "team")
 public class TeamController {
     @Autowired
     ApiService service;
@@ -32,6 +34,11 @@ public class TeamController {
     public Team findTeamByAccount(@PathVariable String account){
 
         return teamRepository.findTeamByAccount(account);
+    }
+    @ApiOperation(value="查找所有队伍")
+    @GetMapping("")
+    public List<Team> findTeams(){
+        return teamRepository.findAll();
     }
 
 

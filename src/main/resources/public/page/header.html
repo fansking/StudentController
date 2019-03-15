@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <div class="navbar navbar-inverse background">
+    <div class="navbar-header">
+        <a class="navbar-brand service-big-title" href="http://172.168.10.132:12577/">体育信息平台</a>
+
+        <ul class="nav navbar-nav visible-xs-block">
+            <li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
+            <li><a class="sidebar-mobile-main-toggle"><i class="icon-paragraph-justify3"></i></a></li>
+        </ul>
+    </div>
+
+    <div class="navbar-collapse collapse" id="navbar-mobile">
+        <ul class="nav navbar-nav navbar-right">
+            <!--<li class="dropdown">-->
+                <!--<a  class="dropdown-toggle" data-toggle="dropdown">-->
+                    <!--<i class="icon-bubbles4"></i>-->
+                    <!--<span class="visible-xs-inline-block position-right">消息</span>-->
+                    <!--<span class="badge bg-warning-400">2</span>-->
+                <!--</a>-->
+                <!--<div class="dropdown-menu dropdown-content width-250">-->
+                    <!--<div class="dropdown-content-heading">-->
+                        <!--新消息-->
+                    <!--</div>-->
+                    <!--<ul class="media-list dropdown-content-body">-->
+                        <!--<li class="media">-->
+                            <!--<div class="media-body">-->
+                                <!--<a  class="media-heading">-->
+                                    <!--<span class="text-semibold">新服务上线</span>-->
+                                    <!--<span class="media-annotation pull-right">04:58</span>-->
+                                <!--</a>-->
+
+                                <!--<span class="text-muted">XXXXX上线！</span>-->
+                            <!--</div>-->
+                        <!--</li>-->
+
+                        <!--<li class="media">-->
+                            <!--<div class="media-body">-->
+                                <!--<a  class="media-heading">-->
+                                    <!--<span class="text-semibold">新服务上线</span>-->
+                                    <!--<span class="media-annotation pull-right">04:58</span>-->
+                                <!--</a>-->
+
+                                <!--<span class="text-muted">XXXXX上线！</span>-->
+                            <!--</div>-->
+                        <!--</li>-->
+
+                        <!--<li class="media">-->
+                            <!--<div class="media-body">-->
+                                <!--<a  class="media-heading">-->
+                                    <!--<span class="text-semibold">新服务上线</span>-->
+                                    <!--<span class="media-annotation pull-right">04:58</span>-->
+                                <!--</a>-->
+
+                                <!--<span class="text-muted">XXXXX上线！</span>-->
+                            <!--</div>-->
+                        <!--</li>-->
+
+                        <!--<li class="media">-->
+                            <!--<div class="media-body">-->
+                                <!--<a  class="media-heading">-->
+                                    <!--<span class="text-semibold">新服务上线</span>-->
+                                    <!--<span class="media-annotation pull-right">04:58</span>-->
+                                <!--</a>-->
+
+                                <!--<span class="text-muted">XXXXX上线！</span>-->
+                            <!--</div>-->
+                        <!--</li>-->
+
+                    <!--</ul>-->
+
+                    <!--<div class="dropdown-content-footer">-->
+                        <!--<a data-popup="tooltip" title="更多消息"><i class="icon-menu display-block"></i></a>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</li>-->
+
+            <li class="dropdown dropdown-user">
+                <a class="dropdown-toggle" data-toggle="dropdown">
+                    <img src="images/placeholder.jpg" alt="">
+                    <span>{{userName}} - {{org}}
+                    </span>
+                    <i class="caret"></i>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <!--<li><a><i class="icon-user-plus"></i>页面一</a></li>-->
+                    <!--<li><a><i class="icon-coins"></i>页面二</a></li>-->
+                    <!--<li class="divider"></li>-->
+                    <!--<li><a><i class="icon-cog5"></i>设置</a></li>-->
+                    <!--<li><a><i class="icon-switch2"></i>注销</a></li>-->
+                    <li><a href="http://172.168.10.132:12577/changeinfo"><i class="icon-cog5"></i>设置</a></li>
+                    <li><a ng-click="logout()"><i class="icon-switch2"></i>注销</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+
+
+</html>

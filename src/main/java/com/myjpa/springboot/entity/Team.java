@@ -1,6 +1,6 @@
 package com.myjpa.springboot.entity;
 
-import sun.plugin2.message.Serializer;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -23,27 +23,32 @@ public class Team {
     @Column
     private String passWord="123456";
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL,fetch=FetchType.LAZY)
     @JoinColumn(name="teamId")
+    @JsonIgnoreProperties(value = {"handler","hibernateLazyInitializer","fieldHandler"})
     List<Athlete> athletes = new ArrayList<>();
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = Leader.class,fetch=FetchType.LAZY)
     @JoinColumn(name = "leader_identityNum")
+    @JsonIgnoreProperties(value = {"handler","hibernateLazyInitializer","fieldHandler"})
     private Leader leader;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = Coach.class,fetch=FetchType.LAZY)
     @JoinColumn(name = "coach_identityNum")
+    @JsonIgnoreProperties(value = {"handler","hibernateLazyInitializer","fieldHandler"})
     private Coach coach;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = Doctor.class,fetch=FetchType.LAZY)
     @JoinColumn(name = "doctor_identityNum")
+    @JsonIgnoreProperties(value = {"handler","hibernateLazyInitializer","fieldHandler"})
     private Doctor doctor;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = Referee.class,fetch=FetchType.LAZY)
     @JoinColumn(name = "referee_identityNum")
-    private Doctor referee;
+    @JsonIgnoreProperties(value = {"handler","hibernateLazyInitializer","fieldHandler"})
+    private Referee referee;
 
-    public Doctor getReferee() {
+    public Referee getReferee() {
         return referee;
     }
 
-    public void setReferee(Doctor referee) {
+    public void setReferee(Referee referee) {
         this.referee = referee;
     }
 
