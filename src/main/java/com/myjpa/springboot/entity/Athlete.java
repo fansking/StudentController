@@ -1,24 +1,20 @@
 package com.myjpa.springboot.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
-import java.util.List;
+import java.io.Serializable;
+import java.util.Set;
 
 //使用JPA注解配置映射关系
 //告诉JPA这是一个实体类
 @Entity
 //指定和哪个数据表对应
-@Table(name="Athletes")
-
-public class Athlete {
-    @Id //主键,运动员号码，由系统自动生成
+public class Athlete implements Serializable {
+    @Id
     @GeneratedValue
     private Integer id;
     @Column
     private String athleteId;
-
     //年龄
     @Column
     private Integer age;
@@ -38,9 +34,23 @@ public class Athlete {
     //参加比赛的项目用逗号隔开，也可不用
     @Column
     private String competitionStr;
-    @Transient
-    private List<String> competitions;
+    //参加的项目
+//    @ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+//    @JoinTable(name="athlete_competition",
+//            joinColumns={@JoinColumn(name="aid",referencedColumnName = "id")},
+//            inverseJoinColumns={@JoinColumn(name="cid",referencedColumnName = "id")})
+//    private Set<Competition> competitions = new HashSet<>();
 
+    //  中间表
+//    @OneToMany(targetEntity = AthleteCompetition.class, mappedBy="Athlete", fetch = FetchType.LAZY)
+//    @OneToMany(cascade = CascadeType.ALL)
+//    @JoinColumn(name="athId",referencedColumnName = "id")
+    @OneToMany(mappedBy = "athlete", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<AthleteCompetition> athleteCompetitions;
+
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+    private Team team;
 
     public String getAthleteId() {
         return athleteId;
@@ -53,6 +63,18 @@ public class Athlete {
 
 
     public Athlete() {
+    }
+
+    public Athlete(String athleteId, Integer age, String name, String identityNum, String teamName, Boolean isMale, Integer scores, String competitionStr, Set<AthleteCompetition> athleteCompetitions) {
+        this.athleteId = athleteId;
+        this.age = age;
+        this.name = name;
+        this.identityNum = identityNum;
+        this.teamName = teamName;
+        this.isMale = isMale;
+        this.scores = scores;
+        this.competitionStr = competitionStr;
+        this.athleteCompetitions = athleteCompetitions;
     }
 
     public String getName() {
@@ -70,13 +92,6 @@ public class Athlete {
         this.age = age;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public void setId(Integer id) {
         this.id = id;
@@ -126,11 +141,31 @@ public class Athlete {
         this.competitionStr = competitionStr;
     }
 
-    public List<String> getCompetitions() {
-        return competitions;
+    public Set<AthleteCompetition> getAthleteCompetitions() {
+        return athleteCompetitions;
     }
 
-    public void setCompetitions(List<String> competitions) {
-        this.competitions = competitions;
+    public void setAthleteCompetitions(Set<AthleteCompetition> athleteCompetitions) {
+        this.athleteCompetitions = athleteCompetitions;
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+//    public Set<Competition> getCompetitions() {
+//        return competitions;
+//    }
+//
+//    public void setCompetitions(Set<Competition> competitions) {
+//        this.competitions = competitions;
+//    }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 //告诉JPA这是一个实体类
 @Entity
 //指定和哪个数据表对应
-@Table(name="Teams")
+@Table(name = "Teams")
 public class Team {
     //队伍名称
     @Column
@@ -21,27 +21,28 @@ public class Team {
     @Column
     private String account;
     @Column
-    private String passWord="123456";
+    private String passWord = "123456";
 
-    @OneToMany(cascade = CascadeType.ALL,fetch=FetchType.LAZY)
-    @JoinColumn(name="teamId")
-    @JsonIgnoreProperties(value = {"handler","hibernateLazyInitializer","fieldHandler"})
+    //    @OneToMany(cascade = CascadeType.ALL,fetch=FetchType.LAZY)
+//    @JoinColumn(name="teamId")
+//    @JsonIgnoreProperties(value = {"handler","hibernateLazyInitializer","fieldHandler"})
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Athlete> athletes = new ArrayList<>();
-    @OneToOne(targetEntity = Leader.class,fetch=FetchType.LAZY)
+    @OneToOne(targetEntity = Leader.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "leader_identityNum")
-    @JsonIgnoreProperties(value = {"handler","hibernateLazyInitializer","fieldHandler"})
+    @JsonIgnoreProperties(value = {"handler", "hibernateLazyInitializer", "fieldHandler"})
     private Leader leader;
-    @OneToOne(targetEntity = Coach.class,fetch=FetchType.LAZY)
+    @OneToOne(targetEntity = Coach.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "coach_identityNum")
-    @JsonIgnoreProperties(value = {"handler","hibernateLazyInitializer","fieldHandler"})
+    @JsonIgnoreProperties(value = {"handler", "hibernateLazyInitializer", "fieldHandler"})
     private Coach coach;
-    @OneToOne(targetEntity = Doctor.class,fetch=FetchType.LAZY)
+    @OneToOne(targetEntity = Doctor.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_identityNum")
-    @JsonIgnoreProperties(value = {"handler","hibernateLazyInitializer","fieldHandler"})
+    @JsonIgnoreProperties(value = {"handler", "hibernateLazyInitializer", "fieldHandler"})
     private Doctor doctor;
-    @OneToOne(targetEntity = Referee.class,fetch=FetchType.LAZY)
+    @OneToOne(targetEntity = Referee.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "referee_identityNum")
-    @JsonIgnoreProperties(value = {"handler","hibernateLazyInitializer","fieldHandler"})
+    @JsonIgnoreProperties(value = {"handler", "hibernateLazyInitializer", "fieldHandler"})
     private Referee referee;
 
     public Referee getReferee() {

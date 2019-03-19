@@ -1,6 +1,5 @@
 package com.myjpa.springboot.controller;
 
-import com.myjpa.springboot.entity.Athlete;
 import com.myjpa.springboot.entity.Team;
 import com.myjpa.springboot.repository.TeamRepository;
 import com.myjpa.springboot.service.ApiService;
