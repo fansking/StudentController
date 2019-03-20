@@ -1,8 +1,12 @@
 package com.myjpa.springboot.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Set;
 
 //使用JPA注解配置映射关系
@@ -34,23 +38,16 @@ public class Athlete implements Serializable {
     //参加比赛的项目用逗号隔开，也可不用
     @Column
     private String competitionStr;
-    //参加的项目
-//    @ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
-//    @JoinTable(name="athlete_competition",
-//            joinColumns={@JoinColumn(name="aid",referencedColumnName = "id")},
-//            inverseJoinColumns={@JoinColumn(name="cid",referencedColumnName = "id")})
-//    private Set<Competition> competitions = new HashSet<>();
-
-    //  中间表
-//    @OneToMany(targetEntity = AthleteCompetition.class, mappedBy="Athlete", fetch = FetchType.LAZY)
-//    @OneToMany(cascade = CascadeType.ALL)
-//    @JoinColumn(name="athId",referencedColumnName = "id")
-    @OneToMany(mappedBy = "athlete", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<AthleteCompetition> athleteCompetitions;
-
-    @ManyToOne
+    @Transient
+    String[] competitions;
+    @ManyToOne(cascade={CascadeType.MERGE,CascadeType.REFRESH},optional=false)
     @JoinColumn(name = "team_id")
     private Team team;
+    @OneToMany(targetEntity =AthleteCompetition.class,mappedBy = "athlete",fetch=FetchType.EAGER)
+    @JsonIgnore
+    private Set<AthleteCompetition> athleteCompetitions;
+
+
 
     public String getAthleteId() {
         return athleteId;
@@ -149,11 +146,47 @@ public class Athlete implements Serializable {
         this.athleteCompetitions = athleteCompetitions;
     }
 
+    public String[] getCompetitions() {
+        return competitions;
+    }
+
+    public void setCompetitions(String[] competitions) {
+        this.competitions = competitions;
+    }
+
     public Integer getId() {
         return id;
     }
+    public void initComstr(){
+        competitionStr="";
+        for (String str:competitions) {
+            competitionStr+=str+" ";
+        }
+    }
+    public void initCom(){
+        if(competitionStr!=null){
+            competitions= competitionStr.split(" ");
+        }
 
-    public Team getTeam() {
+    }
+
+    @Override
+    public String toString() {
+        return "Athlete{" +
+                "id=" + id +
+                ", athleteId='" + athleteId + '\'' +
+                ", age=" + age +
+                ", name='" + name + '\'' +
+                ", identityNum='" + identityNum + '\'' +
+                ", teamName='" + teamName + '\'' +
+                ", isMale=" + isMale +
+                ", scores=" + scores +
+                ", competitionStr='" + competitionStr + '\'' +
+                ", competitions=" + Arrays.toString(competitions) +
+                ", athleteCompetitions=" + athleteCompetitions +
+                '}';
+    }
+public Team getTeam() {
         return team;
     }
 

@@ -1,5 +1,6 @@
 package com.myjpa.springboot.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -23,26 +24,20 @@ public class Team {
     @Column
     private String passWord = "123456";
 
-    //    @OneToMany(cascade = CascadeType.ALL,fetch=FetchType.LAZY)
-//    @JoinColumn(name="teamId")
-//    @JsonIgnoreProperties(value = {"handler","hibernateLazyInitializer","fieldHandler"})
-    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL,fetch=FetchType.LAZY,mappedBy = "team")
+    @JsonIgnore
     List<Athlete> athletes = new ArrayList<>();
-    @OneToOne(targetEntity = Leader.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "leader_identityNum")
-    @JsonIgnoreProperties(value = {"handler", "hibernateLazyInitializer", "fieldHandler"})
+    @OneToOne(mappedBy ="team" ,targetEntity = Leader.class, fetch = FetchType.LAZY)
+    @JsonIgnore
     private Leader leader;
-    @OneToOne(targetEntity = Coach.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "coach_identityNum")
-    @JsonIgnoreProperties(value = {"handler", "hibernateLazyInitializer", "fieldHandler"})
+    @OneToOne(mappedBy ="team" ,targetEntity = Coach.class)
+    @JsonIgnore
     private Coach coach;
-    @OneToOne(targetEntity = Doctor.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "doctor_identityNum")
-    @JsonIgnoreProperties(value = {"handler", "hibernateLazyInitializer", "fieldHandler"})
+    @OneToOne(mappedBy ="team" ,targetEntity = Doctor.class, fetch = FetchType.LAZY)
+    @JsonIgnore
     private Doctor doctor;
-    @OneToOne(targetEntity = Referee.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "referee_identityNum")
-    @JsonIgnoreProperties(value = {"handler", "hibernateLazyInitializer", "fieldHandler"})
+    @OneToOne(mappedBy ="team" ,targetEntity = Referee.class, fetch = FetchType.LAZY)
+    @JsonIgnore
     private Referee referee;
 
     public Referee getReferee() {

@@ -1,8 +1,11 @@
 package com.myjpa.springboot.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 //指定和哪个数据表对应
@@ -15,6 +18,38 @@ public class Referee {
     private String identityNum;
     @Column
     private String phoneNum;
+    private Boolean sir;
+    @OneToOne(cascade={CascadeType.MERGE,CascadeType.REFRESH},optional=false)
+    @JoinColumn(name="team_id")
+    Team team;
+    @OneToMany(cascade = CascadeType.ALL,fetch=FetchType.LAZY,mappedBy = "referee")
+    @JsonIgnore
+    List<Grades> grades = new ArrayList<>();
+
+    public List<Grades> getGrades() {
+        return grades;
+    }
+
+    public void setGrades(List<Grades> grades) {
+        this.grades = grades;
+    }
+
+    public Boolean getSir() {
+        return sir;
+    }
+
+    public void setSir(Boolean sir) {
+        this.sir = sir;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
     public Referee() {
     }
 

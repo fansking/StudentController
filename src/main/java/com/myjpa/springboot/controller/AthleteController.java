@@ -35,13 +35,18 @@ public class AthleteController {
     @ApiOperation(value="插入一个运动员")
     //插入一个学生
     @PostMapping("/insert")
-    public Athlete insertAthlete(Athlete athlete){
+    public Athlete insertAthlete(@RequestBody Athlete athlete){
         return athleteRepository.save(athlete);
     }
     @ApiOperation(value="寻查找所有的运动员信息")
     @GetMapping("/findAll")
     public List<Athlete> getAthleteList(){
                return athleteRepository.findAll();
+    }
+    @ApiOperation(value="查找某队的运动员信息")
+    @GetMapping("/findByTeam/{id}")
+    public List<Athlete> getAthleteListByTeam(@PathVariable Integer id){
+        return athleteRepository.findByTeam_Id(id);
     }
 
     @GetMapping("/findByAge/{age}")

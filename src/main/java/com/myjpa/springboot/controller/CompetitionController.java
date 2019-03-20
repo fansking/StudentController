@@ -19,7 +19,6 @@ public class CompetitionController {
     @ApiOperation(value="增加或更新一个比赛信息")
     @PostMapping("/insert")
     public Competition insertAthlete(@RequestBody Competition competition){
-        Competition save=competitionRepository.save(competition);
-        return save;
+        return competitionRepository.save(competition);
     }
 }

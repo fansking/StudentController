@@ -16,6 +16,17 @@ public class Doctor {
     private String identityNum;
     @Column
     private String phoneNum;
+    @OneToOne(cascade={CascadeType.MERGE,CascadeType.REFRESH},optional=false)
+    @JoinColumn(name="team_id")
+    Team team;
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
 
     public Doctor() {
     }

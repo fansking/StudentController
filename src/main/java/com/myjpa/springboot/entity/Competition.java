@@ -1,8 +1,9 @@
 package com.myjpa.springboot.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -55,7 +56,8 @@ public class Competition implements Serializable {
    // @OneToMany(targetEntity = AthleteCompetition.class, mappedBy="Competition", fetch = FetchType.LAZY)
 //    @OneToMany(cascade = CascadeType.ALL)
 //    @JoinColumn(name="competitionId",referencedColumnName = "id")
-    @OneToMany(mappedBy = "competition")
+    @OneToMany(mappedBy = "competition",fetch=FetchType.EAGER)
+    @JsonIgnore
     private Set<AthleteCompetition> athleteCompetitions;
 
     public Competition(String name, Integer age, boolean isMale, boolean isPreliminaryContest, Set<AthleteCompetition> athleteCompetitions) {
@@ -117,7 +119,18 @@ public class Competition implements Serializable {
         this.athleteCompetitions = athleteCompetitions;
     }
 
-//    public Set<Athlete> getAthletes() {
+    @Override
+    public String toString() {
+        return "Competition{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", isMale=" + isMale +
+                ", isPreliminaryContest=" + isPreliminaryContest +
+                ", athleteCompetitions=" + athleteCompetitions +
+                '}';
+    }
+    //    public Set<Athlete> getAthletes() {
 //        return athletes;
 //    }
 //

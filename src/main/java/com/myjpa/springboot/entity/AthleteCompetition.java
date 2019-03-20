@@ -1,37 +1,45 @@
 package com.myjpa.springboot.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
 
 @Entity
+@IdClass(ACkey.class)
 public class AthleteCompetition implements Serializable {
+
+
     @Id
-    @GeneratedValue
-    private Integer id;
-
-    /*@ManyToOne(fetch = FetchType.LAZY)
-    @Cascade(value = org.hibernate.annotations.CascadeType.SAVE_UPDATE)
-    @JoinColumn(name="aid")*/
-
-    @ManyToOne
-    @JoinColumn(name="competition_id")
+    @ManyToOne(targetEntity = Competition.class,fetch=FetchType.EAGER)
     private Competition competition;
-
-    @ManyToOne
-    @JoinColumn(name = "athlete_id")
+    @Id
+    @ManyToOne(targetEntity = Athlete.class,fetch=FetchType.EAGER)
     private Athlete athlete;
+    @OneToMany(mappedBy ="athleteCompetition" ,targetEntity = Grades.class, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Grades> grades;
 
-  /*  @ManyToOne(fetch = FetchType.LAZY)
-    @Cascade(value = org.hibernate.annotations.CascadeType.SAVE_UPDATE)
-    @JoinColumn(name="cid")*/
+   /* @OneToMany(cascade = CascadeType.ALL,fetch=FetchType.LAZY,mappedBy = "athleteCompetition")
+    @JsonIgnore
+    Set<Referee> referees;*/
 
+    public List<Grades> getGrades() {
+        return grades;
+    }
 
-    public AthleteCompetition(Athlete athlete, Competition competition, int groupNum, double score, int rank) {
+    public void setGrades(List<Grades> grades) {
+        this.grades = grades;
+    }
+
+    public AthleteCompetition(Athlete athlete, Competition competition, int groupNum, double score, int athleteRank) {
         this.athlete = athlete;
         this.competition = competition;
         this.groupNum = groupNum;
         this.score = score;
-        this.rank = rank;
+        this.athleteRank = athleteRank;
     }
 
     public AthleteCompetition() {
@@ -52,17 +60,10 @@ public class AthleteCompetition implements Serializable {
     /**
      * 名次
      */
-    private int rank;
+    private int athleteRank;
 
-    public Integer getId() {
-        return id;
-    }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-  /*  public Athlete getAthlete() {
+    public Athlete getAthlete() {
         return athlete;
     }
 
@@ -76,7 +77,7 @@ public class AthleteCompetition implements Serializable {
 
     public void setCompetition(Competition competition) {
         this.competition = competition;
-    }*/
+    }
 
     public int getGroupNum() {
         return groupNum;
@@ -94,11 +95,11 @@ public class AthleteCompetition implements Serializable {
         this.score = score;
     }
 
-    public int getRank() {
-        return rank;
+    public int getAthleteRank() {
+        return athleteRank;
     }
 
-    public void setRank(int rank) {
-        this.rank = rank;
+    public void setAthleteRank(int athleteRank) {
+        this.athleteRank = athleteRank;
     }
 }

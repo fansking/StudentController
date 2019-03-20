@@ -18,7 +18,17 @@ public class Coach {
     private String phoneNum;
 
     private Boolean isMale;
+    @OneToOne(cascade={CascadeType.MERGE,CascadeType.REFRESH},optional=false)
+    @JoinColumn(name="team_id")
+    Team team;
 
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
     public Coach() {
     }
 
