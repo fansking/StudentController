@@ -31,7 +31,7 @@ public class ApplicationTests {
     private AthleteCompetitionRepository athleteCompetitionRepository;
 
     @Test
-    public void init() {
+    /*public void init() {
         Athlete athlete1 = new Athlete("001", 12, "张三",
                 "123235345", "哈哈哈", false,
                 99, "", new HashSet<AthleteCompetition>());
@@ -70,7 +70,7 @@ public class ApplicationTests {
         athleteCompetitionRepository.save(new AthleteCompetition(athlete1, competition1, 99, 1, 1));
 
 
-    }
+    }*/
 
     public TeamRepository getTeamRepository() {
         return teamRepository;
