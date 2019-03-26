@@ -1,10 +1,19 @@
 package com.myjpa.springboot.entity.dbentity;
 
+import com.myjpa.springboot.entity.Team;
+
 public class DBTeams {
     private Integer id;
     private String account;
     private String name;
     private String pass_word;
+
+    public DBTeams(Team team){
+        id = team.getId();
+        account = team.getAccount();
+        name = team.getName();
+        pass_word = team.getPassWord();
+    }
 
     public DBTeams(Integer id, String account, String name, String pass_word) {
         this.id = id;

@@ -1,5 +1,7 @@
 package com.myjpa.springboot.entity.dbentity;
 
+import com.myjpa.springboot.entity.Athlete;
+
 public class DBAthlete {
     private Integer id;
     private Integer age;
@@ -13,6 +15,19 @@ public class DBAthlete {
     private Integer team_id;
 
     public DBAthlete() {
+    }
+
+    public DBAthlete(Athlete athlete){
+        this.id = athlete.getId();
+        this.age = athlete.getAge();
+        this.athlete_id = athlete.getAthleteId();
+        this.competition_str = athlete.getCompetitionStr();
+        this.identity_num = athlete.getIdentityNum();
+        this.is_male = athlete.getMale();
+        this.name = athlete.getName();
+        this.scores = athlete.getScores();
+        this.team_name = athlete.getTeamName();
+        this.team_id = athlete.getTeam().getId();
     }
 
     public DBAthlete(Integer id, Integer age, String athlete_id, String competition_str,

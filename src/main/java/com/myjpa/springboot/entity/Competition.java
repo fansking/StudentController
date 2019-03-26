@@ -1,6 +1,8 @@
 package com.myjpa.springboot.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.myjpa.springboot.entity.dbentity.DBCoaches;
+import com.myjpa.springboot.entity.dbentity.DBCompetition;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -66,6 +68,14 @@ public class Competition implements Serializable {
         this.isMale = isMale;
         this.isPreliminaryContest = isPreliminaryContest;
         this.athleteCompetitions = athleteCompetitions;
+    }
+
+    public Competition(DBCompetition dbCompetition){
+        id = dbCompetition.getId();
+        name = dbCompetition.getName();
+        age = dbCompetition.getAge();
+        isMale = dbCompetition.getIs_male();
+        isPreliminaryContest = dbCompetition.getIs_preliminary_contest();
     }
 
     public Competition() {

@@ -1,6 +1,6 @@
 package com.myjpa.springboot.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.myjpa.springboot.entity.dbentity.DBLeaders;
 
 import javax.persistence.*;
 
@@ -28,7 +28,12 @@ public class Leader {
     }
 
     Leader(){
+    }
 
+    public Leader(DBLeaders dbLeaders){
+        name  = dbLeaders.getName();
+        identityNum = dbLeaders.getIdentity_num();
+        phoneNum = dbLeaders.getPhone_num();
     }
 
     public String getName() {

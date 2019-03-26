@@ -1,16 +1,26 @@
 package com.myjpa.springboot.entity.dbentity;
 
+import com.myjpa.springboot.entity.AthleteCompetition;
+
 public class DBAthlete_competition {
     private Integer athlete_id;
     private Integer competition_id;
     private Integer athlete_rank;
     private Integer group_num;
-    private Integer score;
+    private Double score;
 
     public DBAthlete_competition() {
     }
 
-    public DBAthlete_competition(Integer athlete_id, Integer competition_id, Integer athlete_rank, Integer group_num, Integer score) {
+    public DBAthlete_competition(AthleteCompetition athleteCompetition){
+        athlete_id = athleteCompetition.getAthlete().getId();
+        competition_id = athleteCompetition.getCompetition().getId();
+        athlete_rank = athleteCompetition.getAthleteRank();
+        group_num = athleteCompetition.getGroupNum();
+        score = athleteCompetition.getScore();
+    }
+
+    public DBAthlete_competition(Integer athlete_id, Integer competition_id, Integer athlete_rank, Integer group_num, Double score) {
         this.athlete_id = athlete_id;
         this.competition_id = competition_id;
         this.athlete_rank = athlete_rank;
@@ -50,11 +60,11 @@ public class DBAthlete_competition {
         this.group_num = group_num;
     }
 
-    public Integer getScore() {
+    public Double getScore() {
         return score;
     }
 
-    public void setScore(Integer score) {
+    public void setScore(Double score) {
         this.score = score;
     }
 }

@@ -9,7 +9,6 @@ public class AthleteDao extends BaseDao<DBAthlete> {
     public List<DBAthlete> findByName(String name){
         return findBy(name);
     }
-
     public List<DBAthlete> findByNameAndScores(String name,Integer scores){
         return findBy(name,scores);
     }

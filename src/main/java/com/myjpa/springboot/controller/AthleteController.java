@@ -1,14 +1,12 @@
 package com.myjpa.springboot.controller;
 
 
-import com.alibaba.fastjson.JSONObject;
+import com.myjpa.springboot.config.Setting;
 import com.myjpa.springboot.entity.Athlete;
 import com.myjpa.springboot.repository.AthleteRepository;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
-import top.jfunc.json.impl.JSONArray;
 
 import java.util.List;
 
@@ -37,7 +35,11 @@ public class AthleteController {
     @PostMapping("/insertMany")
     public void insertAthletes(@RequestBody List<Athlete> athletes){
         for (Athlete athlete:athletes) {
-            athleteRepository.save(athlete);
+            if(Setting.runModel == 1) {
+                athleteRepository.save(athlete);
+            }else {
+
+            }
         }
     }
     @ApiOperation(value="插入一个运动员")

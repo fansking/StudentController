@@ -1,12 +1,20 @@
 package com.myjpa.springboot.entity.dbentity;
 
+import com.myjpa.springboot.entity.Competition;
+
 public class DBCompetition {
     private Integer id;
     private Integer age;
     private Boolean is_male;
     private Boolean is_preliminary_contest;
     private String name;
-
+    public DBCompetition(Competition competition){
+        id = competition.getId();
+        age =competition.getAge();
+        is_male = competition.isMale();
+        is_preliminary_contest = competition.isPreliminaryContest();
+        name = competition.getName();
+    }
     public DBCompetition() {
     }
 

@@ -1,6 +1,6 @@
 package com.myjpa.springboot.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.myjpa.springboot.entity.dbentity.DBCoaches;
 
 import javax.persistence.*;
 
@@ -30,6 +30,21 @@ public class Coach {
         this.team = team;
     }
     public Coach() {
+    }
+
+    public Coach(String name, String identityNum, String phoneNum, Boolean isMale, Team team) {
+        this.name = name;
+        this.identityNum = identityNum;
+        this.phoneNum = phoneNum;
+        this.isMale = isMale;
+        this.team = team;
+    }
+
+    public Coach(DBCoaches dbCoaches){
+        name = dbCoaches.getName();
+        identityNum = dbCoaches.getIdentity_num();
+        phoneNum = dbCoaches.getPhone_num();
+        isMale = dbCoaches.getIs_male();
     }
 
     public String getName() {

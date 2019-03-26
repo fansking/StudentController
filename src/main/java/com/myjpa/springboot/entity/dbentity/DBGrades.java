@@ -1,16 +1,28 @@
 package com.myjpa.springboot.entity.dbentity;
 
+import com.myjpa.springboot.entity.Grades;
+
 public class DBGrades {
     private Integer id;
-    private Integer d_grade;
+    private Double d_grade;
     private Boolean is_pass;
-    private Integer n_grade;
-    private Integer p_grade;
+    private Double n_grade;
+    private Double p_grade;
     private Integer athlete_id;
     private Integer competition_id;
     private String referee_identity_num;
+    public DBGrades(Grades grades){
+        id = grades.getId();
+        d_grade = grades.getdGrade();
+        is_pass = grades.getPass();
+        n_grade = grades.getnGrade();
+        p_grade = grades.getpGrade();
+        athlete_id = grades.getAthleteCompetition().getAthlete().getId();
+        competition_id = grades.getAthleteCompetition().getCompetition().getId();
+        referee_identity_num = grades.getReferee().getIdentityNum();
+    }
 
-    public DBGrades(Integer id, Integer d_grade, Boolean is_pass, Integer n_grade, Integer p_grade, Integer athlete_id, Integer competition_id, String referee_identity_num) {
+    public DBGrades(Integer id, Double d_grade, Boolean is_pass, Double n_grade, Double p_grade, Integer athlete_id, Integer competition_id, String referee_identity_num) {
         this.id = id;
         this.d_grade = d_grade;
         this.is_pass = is_pass;
@@ -32,11 +44,11 @@ public class DBGrades {
         this.id = id;
     }
 
-    public Integer getD_grade() {
+    public Double getD_grade() {
         return d_grade;
     }
 
-    public void setD_grade(Integer d_grade) {
+    public void setD_grade(Double d_grade) {
         this.d_grade = d_grade;
     }
 
@@ -48,19 +60,19 @@ public class DBGrades {
         this.is_pass = is_pass;
     }
 
-    public Integer getN_grade() {
+    public Double getN_grade() {
         return n_grade;
     }
 
-    public void setN_grade(Integer n_grade) {
+    public void setN_grade(Double n_grade) {
         this.n_grade = n_grade;
     }
 
-    public Integer getP_grade() {
+    public Double getP_grade() {
         return p_grade;
     }
 
-    public void setP_grade(Integer p_grade) {
+    public void setP_grade(Double p_grade) {
         this.p_grade = p_grade;
     }
 

@@ -1,8 +1,11 @@
 package com.myjpa.springboot.controller;
 
+import com.myjpa.springboot.config.Setting;
+import com.myjpa.springboot.dao.TeamsDao;
 import com.myjpa.springboot.entity.*;
 import com.myjpa.springboot.repository.TeamRepository;
 import com.myjpa.springboot.service.ApiService;
+import com.myjpa.springboot.service.dbService.DBApiService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +15,8 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "team")
 public class TeamController {
+    DBApiService dbApiService = new DBApiService();
+    TeamsDao teamsDao = new TeamsDao();
     @Autowired
     ApiService service;
     @Autowired
@@ -44,7 +49,12 @@ public class TeamController {
     @ApiOperation(value="查找所有队伍")
     @GetMapping("")
     public List<Team> findTeams(){
-        return teamRepository.findAll();
+        if(Setting.runModel == 1){
+            return teamRepository.findAll();
+        }
+        else {
+            return  null;
+        }
     }
     @ApiOperation(value="查找所有裁判")
     @GetMapping("/referee")
@@ -74,7 +84,11 @@ public class TeamController {
     @ApiOperation(value="新增所有人员")
     @PostMapping("all")
     public void referee(@RequestBody Teamrequest re){
-         service.addTeamMetaData(re.getAthletes(),re.getLeader(),re.getCoach(),re.getDoctor(),re.getReferee());
+        if(Setting.runModel == 1) {
+            service.addTeamMetaData(re.getAthletes(), re.getLeader(), re.getCoach(), re.getDoctor(), re.getReferee());
+        }else {
+            dbApiService.addTeamMetaData(re.getAthletes(), re.getLeader(), re.getCoach(), re.getDoctor(), re.getReferee());
+        }
     }
 
 }

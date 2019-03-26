@@ -1,11 +1,11 @@
 package com.myjpa.springboot.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.myjpa.springboot.entity.dbentity.DBAthlete_competition;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @IdClass(ACkey.class)
@@ -40,6 +40,12 @@ public class AthleteCompetition implements Serializable {
         this.groupNum = groupNum;
         this.score = score;
         this.athleteRank = athleteRank;
+    }
+
+    public AthleteCompetition(DBAthlete_competition dbAthlete_competition){
+        groupNum = dbAthlete_competition.getGroup_num();
+        score = dbAthlete_competition.getScore();
+        athleteRank = dbAthlete_competition.getAthlete_rank();
     }
 
     public AthleteCompetition() {

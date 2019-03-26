@@ -1,11 +1,21 @@
 package com.myjpa.springboot.entity.dbentity;
 
+import com.myjpa.springboot.entity.Referee;
+
 public class DBReferees {
     private String identity_num;
     private String name;
     private String phone_num;
     private Boolean sir;
     private Integer team_id;
+
+    public DBReferees(Referee referee) {
+        identity_num = referee.getIdentityNum();
+        name = referee.getName();
+        phone_num = referee.getPhoneNum();
+        sir = referee.getSir();
+        team_id = referee.getTeam().getId();
+    }
 
     public DBReferees() {
     }

@@ -1,10 +1,19 @@
 package com.myjpa.springboot.entity.dbentity;
 
+import com.myjpa.springboot.entity.Doctor;
+
 public class DBDoctors {
     private String identity_num;
     private String name;
     private String phone_num;
     private Integer team_id;
+
+    public DBDoctors(Doctor doctor) {
+        identity_num = doctor.getIdentityNum();
+        name = doctor.getName();
+        phone_num = doctor.getPhoneNum();
+        team_id = doctor.getTeam().getId();
+    }
 
     public DBDoctors() {
     }

@@ -2,7 +2,7 @@ package com.myjpa.springboot.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.GenericGenerator;
+import com.myjpa.springboot.entity.dbentity.DBAthlete;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -72,6 +72,17 @@ public class Athlete implements Serializable {
         this.scores = scores;
         this.competitionStr = competitionStr;
         this.athleteCompetitions = athleteCompetitions;
+    }
+
+    public Athlete(DBAthlete dbAthlete){
+        athleteId = dbAthlete.getAthlete_id();
+        age = dbAthlete.getAge();
+        name = dbAthlete.getName();
+        identityNum = dbAthlete.getIdentity_num();
+        teamName = dbAthlete.getTeam_name();
+        isMale = dbAthlete.getIs_male();
+        scores = dbAthlete.getScores();
+        competitionStr = dbAthlete.getCompetition_str();
     }
 
     public String getName() {

@@ -1,5 +1,6 @@
 package com.myjpa.springboot.dao.base;
 
+import javax.tools.JavaCompiler;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -251,13 +252,16 @@ public abstract class BaseDao<T> {
         return Ts;
     }
 
-    public void save(T entity) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        String methodName = "getId";
-        Method method = entity.getClass().getMethod(methodName, null);
-        Integer id = (Integer) method.invoke(entity, null);
-
-        if (findById(id) == null) {
-
+    public void save(T entity) {
+        try {
+            List<T> info = findInfo(entity);
+            if(info!=null&&info.size()>0){  // 已存在记录
+                modifyInfo(entity);
+            }else{
+                saveInfo(entity);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 
@@ -343,11 +347,13 @@ public abstract class BaseDao<T> {
             String tableName = clazz.getSimpleName();
             tableName = tableName.substring(2, tableName.length()).toLowerCase();
             //获取主键
-            String prykey = getPrimKey(tableName).get(0);
+            List<String> prykey = getPrimKey(tableName);
             //记录数据列
             List<String> filedList = new ArrayList<String>();
             //获取sql语句
-            String sql = getsavesql(tableName, prykey, filedList);
+            String sql = getsavesql(tableName, filedList);
+            // 修改实体的主键
+            entity = generatePrimKey(prykey,entity);
             //执行sql
             flag = excuteSQL(sql, entity, filedList);
         } catch (Exception e1) {
@@ -355,6 +361,30 @@ public abstract class BaseDao<T> {
             e1.printStackTrace();
         }
         return flag;
+    }
+
+    public T generatePrimKey(List<String> primKey,T entity){
+        try {
+            for (String key : primKey) {
+                StringBuilder stringBuilder = new StringBuilder();
+                String setMethodName = "set" + stringBuilder.append(Character.toUpperCase(key.charAt(0)))
+                        .append(key.substring(1)).toString();
+                String getMethodName = "get" + stringBuilder.toString();
+                Method getMethod = entity.getClass().getMethod(getMethodName,null);
+                Object result = getMethod.invoke(entity);
+
+                // 仅对未传入默认主键值或者传入为0时才让主键自增
+                if(result == null && result.getClass() == Integer.class) {
+                    Method setmethod = entity.getClass().getMethod(setMethodName, Integer.class);
+                    setmethod.invoke(entity, getNextId());
+                }
+            }
+            return entity;
+        } catch (Exception e
+        ){
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -365,13 +395,13 @@ public abstract class BaseDao<T> {
         //获取表名
         String tableName = getTableName(e.getClass());
         //获取主键
-        String prykey = getPrimKey(tableName).get(0);
+        List<String> prykey = getPrimKey(tableName);
         //记录数据列
         List<String> filedList = new ArrayList<String>();
         //获取sql语句
         String sql = getmodifysql(tableName, prykey, filedList);
         //添加主键到集合
-        filedList.add(prykey);
+        filedList.addAll(prykey);
         //执行sql
         excuteSQL(sql, e, filedList);
     }
@@ -379,19 +409,29 @@ public abstract class BaseDao<T> {
     /**
      * 删除方法
      */
-    public void deleteInfo(Object id) {
+    public void deleteInfo(Object... ids) {
         //获取表名
         String tableName = getTableName(clazz);
         //获取主键
-        String prykey = getPrimKey(tableName).get(0);
+        List<String > prykey = getPrimKey(tableName);
         //获取sql语句
-        String sql = "update " + tableName + " set status='1' where " + prykey + "=?";
+        String sql = "delete from " + tableName + " where ";
+        for(String key : prykey){
+            sql += key+"=? and ";
+        }
+        if (sql.toString().endsWith("and ")) {
+            sql = sql.substring(0,sql.length()-5);
+        }
         Connection conn = null;
         PreparedStatement pstm = null;
         try {
             conn = getConnection();
             pstm = conn.prepareStatement(sql);
-            pstm.setObject(1, id);
+            int i = 1;
+            for(Object id : ids){
+                pstm.setObject(i,id);
+                i++;
+            }
             pstm.execute();
         } catch (Exception e) {
             e.printStackTrace();
@@ -407,13 +447,10 @@ public abstract class BaseDao<T> {
         //获取表名
         String tableName = getTableName(clazz);
         //获取查询条件
-        Map<String,Object> paramMap = getParamMap(e);
+        Map<String,Object> paramMap = getKeyMap(e);
         //获取sql
         String sql = getquerySQL(paramMap,tableName);
-//        sql += " limit ?,?";
-//        paramMap.put("pageSize", (pageUtil.getPageSize() - 1)*pageUtil.getPageNum());
-//        paramMap.put("pageNum", pageUtil.getPageNum());
-        //执行SQL
+        // 执行sql
         return excutQuery(sql,paramMap,tableName);
     }
 
@@ -421,12 +458,9 @@ public abstract class BaseDao<T> {
         //获取表名
         String tableName = getTableName(clazz);
         //获取查询条件
-//        Map<String,Object> paramMap = getParamMap(e);
+//        Map<String,Object> paramMap = getKeyMap(e);
         //获取sql
         String sql = getquerySQL(paramMap,tableName);
-//        sql += " limit ?,?";
-//        paramMap.put("pageSize", (pageUtil.getPageSize() - 1)*pageUtil.getPageNum());
-//        paramMap.put("pageNum", pageUtil.getPageNum());
         //执行SQL
         return excutQuery(sql,paramMap,tableName);
     }
@@ -537,20 +571,21 @@ public abstract class BaseDao<T> {
      * @param e
      * @return
      */
-    private Map<String, Object> getParamMap(T e) {
-        Map<String, Object> paramMap = new LinkedHashMap<String, Object>();
-        Field[] fields = e.getClass().getDeclaredFields();
-        for (Field field : fields) {
-            try {
-                field.setAccessible(true);
-                Object val = field.get(e);
-                if (val != null && !"".equals(val.toString())) {
-                    paramMap.put(field.getName(), val);
-                }
-            } catch (Exception e1) {
-                e1.printStackTrace();
+    private Map<String, Object> getKeyMap(T entity) {
+        Map<String, Object> paramMap = new HashMap<>();
+        // 首先找到主键
+        List<String> primKey = getPrimKey(this.getTableName(clazz));
+        try {
+            for (String key : primKey) {
+                StringBuilder stringBuilder = new StringBuilder();
+                String methodName = "get" + stringBuilder.append(
+                        Character.toUpperCase(key.charAt(0))).append(key.substring(1)).toString();
+                Method method = entity.getClass().getMethod(methodName, null);
+                Object result = method.invoke(entity);
+                paramMap.put(key,result);
             }
-
+        }catch (Exception e){
+            e.printStackTrace();
         }
         return paramMap;
     }
@@ -625,12 +660,12 @@ public abstract class BaseDao<T> {
      * @param filedList
      * @return
      */
-    private String getmodifysql(String tableName, String prykey, List<String> filedList) {
+    private String getmodifysql(String tableName, List<String> prykey, List<String> filedList) {
         StringBuffer sql = new StringBuffer();
         sql.append("update ").append(tableName).append(" set ");
         List<String> columnList = getTableColumns(tableName);
         for (String columnName : columnList) {
-            if (!columnName.equalsIgnoreCase(prykey)) {
+            if (!prykey.contains(columnName)) {
                 filedList.add(columnName);
                 sql.append(columnName).append("=?,");
             }
@@ -638,7 +673,13 @@ public abstract class BaseDao<T> {
         if (sql.toString().endsWith(",")) {
             sql = new StringBuffer(sql.substring(0, sql.length() - 1));
         }
-        sql.append(" where ").append(prykey).append("=?");
+        sql.append(" where ");
+        for(String key : prykey) {
+            sql.append(key).append("=? and ");
+        }
+        if (sql.toString().endsWith("and ")) {
+            sql = new StringBuffer(sql.substring(0, sql.length() - 5));
+        }
         return sql.toString();
     }
 
@@ -667,11 +708,7 @@ public abstract class BaseDao<T> {
             }
             rs = pstm.executeQuery();
             List<T> list = getEntityList(rs);
-//            //封装查询结果
-//            pageUtil.setList(list);
-//            //封装总条数
-//            pageUtil.setPageNumSum(getPagenumsss(paramMap,tableName));
-            return  list;
+            return list;
         } catch (Exception e) {
             e.printStackTrace();
         }finally{
@@ -721,7 +758,7 @@ public abstract class BaseDao<T> {
      * @param filedList
      * @return
      */
-    private String getsavesql(String tableName, String prykey, List<String> filedList) {
+    private String getsavesql(String tableName , List<String> filedList) {
         StringBuffer sql = new StringBuffer();
         sql.append("insert into ").append(tableName).append(" (");
         List<String> columnList = getTableColumns(tableName);

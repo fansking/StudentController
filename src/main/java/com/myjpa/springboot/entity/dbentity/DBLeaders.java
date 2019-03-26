@@ -1,11 +1,19 @@
 package com.myjpa.springboot.entity.dbentity;
 
+import com.myjpa.springboot.entity.Leader;
+
 public class DBLeaders {
     private String identity_num;
     private String name;
     private String phone_num;
     private Integer team_id;
 
+    public DBLeaders(Leader leader){
+        identity_num = leader.getIdentityNum();
+        name = leader.getName();
+        phone_num = leader.getPhoneNum();
+        team_id = leader.getTeam().getId();
+    }
     public DBLeaders() {
     }
 

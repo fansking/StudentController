@@ -1,11 +1,20 @@
 package com.myjpa.springboot.entity.dbentity;
 
+import com.myjpa.springboot.entity.Coach;
+
 public class DBCoaches {
     private String identity_num;
     private Boolean is_male;
     private String name;
     private String phone_num;
     private Integer team_id;
+    public DBCoaches(Coach coach){
+        identity_num = coach.getIdentityNum();
+        is_male = coach.getMale();
+        name = coach.getName();
+        phone_num = coach.getPhoneNum();
+        team_id = coach.getTeam().getId();
+    }
 
     public DBCoaches() {
     }

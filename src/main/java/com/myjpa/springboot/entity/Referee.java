@@ -1,7 +1,7 @@
 package com.myjpa.springboot.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.myjpa.springboot.entity.dbentity.DBReferees;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -25,6 +25,13 @@ public class Referee {
     @OneToMany(cascade = CascadeType.ALL,fetch=FetchType.LAZY,mappedBy = "referee")
     @JsonIgnore
     List<Grades> grades = new ArrayList<>();
+
+    public Referee(DBReferees dbReferees){
+        name = dbReferees.getName();
+        identityNum = dbReferees.getIdentity_num();
+        phoneNum = dbReferees.getPhone_num();
+        sir = dbReferees.getSir();
+    }
 
     public List<Grades> getGrades() {
         return grades;

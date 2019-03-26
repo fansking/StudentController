@@ -1,6 +1,7 @@
 package com.myjpa.springboot.controller;
 
 
+import com.myjpa.springboot.config.Setting;
 import com.myjpa.springboot.entity.Competition;
 import com.myjpa.springboot.repository.CompetitionRepository;
 import io.swagger.annotations.ApiOperation;
@@ -24,12 +25,17 @@ public class CompetitionController {
     @PostMapping("/insertMany")
     public void insertCompetitions(@RequestBody List<Competition> competitions){
         for (Competition competition:competitions) {
+            if(Setting.runModel == 1)
             competitionRepository.save(competition);
         }
     }
     @ApiOperation(value="查找所有比赛信息")
     @GetMapping("/findAll")
     public List<Competition> findAllCompetitions(){
-        return competitionRepository.findAll();
+        if(Setting.runModel == 1) {
+            return competitionRepository.findAll();
+        }else {
+            return  null;
+        }
     }
 }

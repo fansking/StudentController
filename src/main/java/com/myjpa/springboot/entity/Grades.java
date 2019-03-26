@@ -1,7 +1,6 @@
 package com.myjpa.springboot.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.swagger.models.auth.In;
+import com.myjpa.springboot.entity.dbentity.DBGrades;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -25,15 +24,21 @@ public class Grades implements Serializable {
     @ManyToOne(targetEntity = Referee.class,fetch=FetchType.EAGER)
     @JoinColumn(name = "referee_identityNum")
     private Referee referee;
-    Integer nGrade;
-    Integer dGrade;
-    Integer pGrade;
+    Double nGrade;
+    Double dGrade;
+    Double pGrade;
     Boolean isPass;
 
     public Grades() {
-
     }
 
+    public Grades(DBGrades dbGrades){
+        id = dbGrades.getId();
+        nGrade = dbGrades.getN_grade();
+        dGrade = dbGrades.getD_grade();
+        pGrade = dbGrades.getP_grade();
+        isPass = dbGrades.getIs_pass();
+    }
     public Integer getId() {
         return id;
     }
@@ -58,27 +63,27 @@ public class Grades implements Serializable {
         this.referee = referee;
     }
 
-    public Integer getnGrade() {
+    public Double getnGrade() {
         return nGrade;
     }
 
-    public void setnGrade(Integer nGrade) {
+    public void setnGrade(Double nGrade) {
         this.nGrade = nGrade;
     }
 
-    public Integer getdGrade() {
+    public Double getdGrade() {
         return dGrade;
     }
 
-    public void setdGrade(Integer dGrade) {
+    public void setdGrade(Double dGrade) {
         this.dGrade = dGrade;
     }
 
-    public Integer getpGrade() {
+    public Double getpGrade() {
         return pGrade;
     }
 
-    public void setpGrade(Integer pGrade) {
+    public void setpGrade(Double pGrade) {
         this.pGrade = pGrade;
     }
 

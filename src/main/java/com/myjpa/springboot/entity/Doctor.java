@@ -1,6 +1,7 @@
 package com.myjpa.springboot.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.myjpa.springboot.entity.dbentity.DBDoctors;
 
 import javax.persistence.*;
 
@@ -19,6 +20,12 @@ public class Doctor {
     @OneToOne(cascade={CascadeType.MERGE,CascadeType.REFRESH},optional=false)
     @JoinColumn(name="team_id")
     Team team;
+
+    public Doctor(DBDoctors dbDoctors) {
+        name = dbDoctors.getName();
+        identityNum = dbDoctors.getIdentity_num();
+        phoneNum = dbDoctors.getPhone_num();
+    }
 
     public Team getTeam() {
         return team;

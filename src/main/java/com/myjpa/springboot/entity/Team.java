@@ -1,7 +1,7 @@
 package com.myjpa.springboot.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.myjpa.springboot.entity.dbentity.DBTeams;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -39,6 +39,16 @@ public class Team {
     @OneToOne(mappedBy ="team" ,targetEntity = Referee.class, fetch = FetchType.LAZY)
     @JsonIgnore
     private Referee referee;
+
+    public Team(DBTeams dbTeams){
+        id = dbTeams.getId();
+        name = dbTeams.getName();
+        passWord = dbTeams.getPass_word();
+        account = dbTeams.getAccount();
+    }
+
+    public Team() {
+    }
 
     public Referee getReferee() {
         return referee;
