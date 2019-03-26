@@ -43,6 +43,9 @@ public class ApiService implements InitializingBean {
         refereeRepository.save(referee);
 
     }
+    public  List<Referee> findAllReferee(){
+        return refereeRepository.findAll();
+    }
     public Coach insertCoach(Coach coach){
         return coachRepository.save(coach);
     }

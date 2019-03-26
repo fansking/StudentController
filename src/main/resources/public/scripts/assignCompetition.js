@@ -19,8 +19,8 @@ API_index.controller("assignCompetitionCtrl", ['$scope', '$http', '$state' ,func
         angular.copy($scope.competitionModel,competition);
         $scope.competitions.push(competition);
     };
-    $scope.parseBool=function(){
-
+    $scope.parseBool=function(x,y){
+        x[y]=(x[y]==='true');
     };
     $scope.insertMany=function () {
         $http({

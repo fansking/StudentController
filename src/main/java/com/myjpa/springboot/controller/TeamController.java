@@ -46,6 +46,11 @@ public class TeamController {
     public List<Team> findTeams(){
         return teamRepository.findAll();
     }
+    @ApiOperation(value="查找所有裁判")
+    @GetMapping("/referee")
+    public List<Referee> findReferees(){
+        return service.findAllReferee();
+    }
     @ApiOperation(value="新增教练")
     @PostMapping("coach")
     public Coach coach(@RequestBody Coach coach){

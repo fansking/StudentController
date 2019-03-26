@@ -20,7 +20,7 @@
                     <div style="font-size: 12px" class="form-group row">
                         <label  class="control-label row" style="float:left;width:65px;text-align: right;margin-top: 5px;">性别组:</label>
                         <div class="col-lg-11">
-                            <input  class="form-control" type="text" placeholder="请输入true/false" ng-model="competition.male" ng-change="parseBool()" style="" >
+                            <input  class="form-control" type="text" placeholder="请输入true/false" ng-model="competition.male" ng-change="parseBool(competition,'male')" style="" >
                         </div>
                     </div>
                     <div style="font-size: 12px" class="form-group row">
@@ -33,15 +33,15 @@
                     <div style="font-size: 12px" class="form-group row">
                         <label  class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">是否为初赛:</label>
                         <div class="col-lg-11">
-                            <input  class="form-control" type="text" placeholder="请输入true/false" ng-model="competition.preliminaryContest" style="" >
+                            <input  class="form-control" type="text" placeholder="请输入true/false" ng-model="competition.preliminaryContest" ng-change="parseBool(competition,'preliminaryContest')" style="" >
                         </div>
 
                     </div>
                 </div>
             </div>
             <div class="row">
-            <button ng-click="addCompetition()" class="btn btn-primary col-lg-offset-1 col-lg-2">增加一个队伍</button>
-            <button ng-click="insertMany()" class="btn btn-primary col-lg-offset-6 col-lg-2">更新队伍信息</button>
+            <button ng-click="addCompetition()" class="btn btn-primary col-lg-offset-1 col-lg-2">增加一个比赛</button>
+            <button ng-click="insertMany()" class="btn btn-primary col-lg-offset-6 col-lg-2">更新比赛信息</button>
             </div>
         </div>
     </div>

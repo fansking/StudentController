@@ -5,8 +5,10 @@
 
     API_index.controller("indexCtrl", ['$scope', '$state', '$http', '$window', function ($scope, $state, $http, $window) {
         $scope.teamUrl="http://localhost:8080/team";
+        $scope.refereeUrl="http://localhost:8080/team/referee";
         $scope.athleteUrl="http://localhost:8080/athlete";
         $scope.competitionUrl="http://localhost:8080/competition";
+        $scope.athleteCompetitionUrl="http://localhost:8080/athleteCompetition";
         $scope.findAllTeams=function(){
             $http({
                 method: 'GET',
@@ -16,17 +18,28 @@
             })
         };
         $scope.findAllTeams();
+        $state.go('login');
     }]);
 
 
 
     API_index.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
         $urlRouterProvider
-            .when('', '/main');
-        $stateProvider.state('main', {
+            .when('', '/login');
+        $stateProvider.state('login', {
+            url: '/login',
+            cache: false,
+            templateUrl: '/page/login.html',
+            // views: {
+            //     '': {
+            //         templateUrl: '/page/home/main.html',
+            //     }
+            // }
+        }).state('main', {
             url: '/main',
             cache: false,
             templateUrl: '/page/main.html',
+            params:{team:null}
             // views: {
             //     '': {
             //         templateUrl: '/page/home/main.html',
@@ -54,6 +67,15 @@
             url: '/assignCompetition',
             cache: false,
             templateUrl: '/page/assignCompetition.html',
+            // views: {
+            //     '': {
+            //         templateUrl: '/page/home/main.html',
+            //     }
+            // }
+        }).state('assignAC', {
+            url: '/assignAC',
+            cache: false,
+            templateUrl: '/page/assignAC.html',
             // views: {
             //     '': {
             //         templateUrl: '/page/home/main.html',

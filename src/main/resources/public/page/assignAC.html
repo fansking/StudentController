@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>分配比赛组</title>
+</head>
+<body>
+<div ng-controller="assignACCtrl">
+    <div class="content">
+        <a ng-click="athleteFlag=!athleteFlag">点我隐藏/展开运动员</a>
+        <a ng-click="competitionFlag=!competitionFlag">点我隐藏/展开比赛项目</a>
+        <div class="col-lg-10 col-lg-offset-1" ng-show="athleteFlag">
+            <div class="col-lg-10 col-lg-offset-1 panel panel-default" ng-repeat="athlete in athletes">
+                <div class="panel-heading"><p  class="row">姓名:{{athlete.name}}</p><p  class="row">队名:{{athlete.team.name}}</p></div>
+
+                <label><input name="athlete" type="radio" ng-click="selectAthlete($index)"/>运动员号码:{{athlete.athleteId}}</label>
+
+            </div>
+        </div>
+        <div class="col-lg-10 col-lg-offset-1" ng-show="competitionFlag">
+            <div class="col-lg-10 col-lg-offset-1 panel panel-default" ng-repeat="competition in competitions">
+                <div class="panel-heading"><p  class="row">项目名:{{competition.name}}</p><p  class="row">年龄组:{{competition.age}}</p>
+                    <p  class="row">是否为男性组:{{competition.male}}</p><p  class="row">是否为初赛:{{competition.preliminaryContest}}</p></div>
+
+                <label><input name="com" type="radio" value="2" ng-click="selectCom($index)"/>选择</label>
+
+            </div>
+        </div>
+        <div class="col-lg-10 col-lg-offset-1">
+            <div style="font-size: 12px" class="form-group row col-lg-offset-1">
+                <label  class="control-label col-lg-3" style="">运动员赛事表小组:</label>
+                <input  class="form-control col-lg-6" type="text" placeholder="请输入组号" ng-model="athleteCompetition.groupNum" style="" >
+
+            </div>
+            <button ng-click="insertAC()" class="btn btn-primary col-lg-offset-9 col-lg-2">增加运动员赛事表</button>
+        </div>
+
+    </div>
+
+
+</div>
+</body>
+</html>

@@ -2,8 +2,8 @@
 // 如果写成angular.module("API_index", []);则会创建一个新的模块， 会把之前创建的模块覆盖。
 var API_index = angular.module("API_index");
 // 主页控制器
-API_index.controller("mainCtrl", ['$scope', '$http', '$state' ,function ($scope, $http, $state) {
-    $scope.team={"id":7,"name": "梦", "passWord": "123456","account":"654321"};
+API_index.controller("mainCtrl", ['$scope', '$http', '$state','$stateParams' ,function ($scope, $http, $state,$stateParams) {
+    $scope.team=$stateParams.team;
     $scope.leader={"identityNum":"","name":"","phoneNum":""};
     $scope.doctor={"identityNum":"","name":"","phoneNum":""};
     $scope.referee={"identityNum":"","name":"","phoneNum":""};
@@ -83,6 +83,7 @@ API_index.controller("mainCtrl", ['$scope', '$http', '$state' ,function ($scope,
             data:$scope.data
         }).then(function successCallback(response) {
             alert("插入成功");
+            $state.go('login');
         })
     };
 

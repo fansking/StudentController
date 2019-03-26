@@ -31,7 +31,7 @@ public class AthleteController {
         athlete.setName(name);
         athleteRepository.save(athlete);
         return athlete;
-    }
+}
     @ApiOperation(value="插入多个运动员")
     //插入一个学生
     @PostMapping("/insertMany")
