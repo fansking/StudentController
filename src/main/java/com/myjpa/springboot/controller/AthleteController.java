@@ -32,6 +32,14 @@ public class AthleteController {
         athleteRepository.save(athlete);
         return athlete;
     }
+    @ApiOperation(value="插入多个运动员")
+    //插入一个学生
+    @PostMapping("/insertMany")
+    public void insertAthletes(@RequestBody List<Athlete> athletes){
+        for (Athlete athlete:athletes) {
+            athleteRepository.save(athlete);
+        }
+    }
     @ApiOperation(value="插入一个运动员")
     //插入一个学生
     @PostMapping("/insert")

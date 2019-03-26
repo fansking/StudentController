@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>创建比赛项目</title>
+</head>
+<body>
+<div ng-controller="assignCompetitionCtrl">
+    <div class="content">
+        <div class="col-lg-10 col-lg-offset-1">
+            <div class="col-lg-10 col-lg-offset-1 panel panel-default" ng-repeat="competition in competitions">
+                <div class="panel-heading"></div>
+                <div class="panel-body">
+                    <div style="font-size: 12px" class="form-group row">
+                        <label  class="control-label row" style="float:left;width:65px;text-align: right;margin-top: 5px;">年龄组:</label>
+                        <div class="col-lg-11">
+                            <input  class="form-control" type="text" placeholder="请输入7/9/11" ng-model="competition.age" style="" >
+                        </div>
+                    </div>
+                    <div style="font-size: 12px" class="form-group row">
+                        <label  class="control-label row" style="float:left;width:65px;text-align: right;margin-top: 5px;">性别组:</label>
+                        <div class="col-lg-11">
+                            <input  class="form-control" type="text" placeholder="请输入true/false" ng-model="competition.male" ng-change="parseBool()" style="" >
+                        </div>
+                    </div>
+                    <div style="font-size: 12px" class="form-group row">
+                        <label  class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">比赛项目:</label>
+                        <div class="col-lg-11">
+                            <select  class="form-control" ng-show="competition.male" ng-model="competition.name" ng-options="m for m in maleCompetitions" style="" ></select>
+                            <select  class="form-control" ng-show="!competition.male" ng-model="competition.name" ng-options="m for m in femaleCompetitions" style="" ></select>
+                        </div>
+                    </div>
+                    <div style="font-size: 12px" class="form-group row">
+                        <label  class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">是否为初赛:</label>
+                        <div class="col-lg-11">
+                            <input  class="form-control" type="text" placeholder="请输入true/false" ng-model="competition.preliminaryContest" style="" >
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+            <button ng-click="addCompetition()" class="btn btn-primary col-lg-offset-1 col-lg-2">增加一个队伍</button>
+            <button ng-click="insertMany()" class="btn btn-primary col-lg-offset-6 col-lg-2">更新队伍信息</button>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+</body>
+</html>

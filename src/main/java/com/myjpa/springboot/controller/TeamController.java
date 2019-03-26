@@ -18,8 +18,16 @@ public class TeamController {
     TeamRepository teamRepository;
     @ApiOperation(value="增加或更新一个队伍信息")
     @PostMapping("/insert")
-    public Team insertAthlete(@RequestBody Team team){
+    public Team insertTeam(@RequestBody Team team){
         return teamRepository.save(team);
+    }
+    @ApiOperation(value="增加或更新一个队伍信息")
+    @PostMapping("/insertMany")
+    public void insertTeams(@RequestBody List<Team> teams){
+        for (Team team:teams) {
+            teamRepository.save(team);
+        }
+
     }
     @ApiOperation(value="通过队名查找一个队伍")
     @GetMapping("/teamName/{name}")

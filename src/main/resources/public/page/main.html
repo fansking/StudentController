@@ -91,7 +91,7 @@
                     <div style="font-size: 12px" class="form-group row">
                         <label for="coachIsMale" class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">性别:</label>
                         <div class="col-lg-11">
-                            <select id="coachIsMale" class="form-control" ng-model="coach.isMale" ng-options="m for m in isMale" style="" ></select>
+                            <select id="coachIsMale" class="form-control" ng-model="coach.male" ng-options="m for m in isMale" style="" ></select>
                         </div>
                     </div>
                 <div style="font-size: 12px" class="form-group row">
@@ -122,7 +122,7 @@
                         <div style="font-size: 12px" class="form-group row">
                             <label  class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">性别:</label>
                             <div class="col-lg-11">
-                                <select  class="form-control" ng-model="x.isMale" ng-options="m for m in isMale" style="" ></select>
+                                <select  class="form-control" ng-model="x.male" ng-options="m for m in isMale" style="" ></select>
                             </div>
                         </div>
                         <div style="font-size: 12px" class="form-group row">
@@ -141,10 +141,10 @@
                             <label for="coachPhoneNum" class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">参加项目:</label>
                             <div class="col-lg-11">
                                 <div ng-repeat="compet in maleCompetitions" ng-show="x.isMale==='男'">
-                                    <input type="checkbox" ng-click="selectCompet(compet,x)" >{{compet}}
+                                    {{compet}}<input type="checkbox" ng-click="selectCompet(compet,x)" >
                                 </div>
                                 <div ng-repeat="compet in femaleCompetitions" ng-show="x.isMale!=='男'">
-                                    <input type="checkbox" ng-click="selectCompet(compet,x)" >{{compet}}
+                                    {{compet}}<input type="checkbox" ng-click="selectCompet(compet,x)" >
                                 </div>
                             </div>
                         </div>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>分配运动员号</title>
+</head>
+<body>
+    <div ng-controller="assignCtrl">
+        <div class="content">
+            <div class="col-lg-10 col-lg-offset-1">
+                <div class="col-lg-10 col-lg-offset-1 panel panel-default" ng-repeat="athlete in athletes">
+                    <div class="panel-heading"><p  class="row">姓名:{{athlete.name}}</p><p  class="row">队名:{{athlete.team.name}}</p></div>
+                    <div class="panel-body">
+                        <div style="font-size: 12px" class="form-group row">
+                            <label  class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">运动员号码:</label>
+                            <div class="col-lg-11">
+                                <input  class="form-control" type="text" placeholder="请输入运动员号码" ng-model="athlete.athleteId" style="" >
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <button ng-click="insertMany()" class="btn btn-primary col-lg-offset-9 col-lg-2">更新运动员号码</button>
+            </div>
+        </div>
+
+
+    </div>
+</body>
+</html>
