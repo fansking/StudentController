@@ -19,6 +19,15 @@ public class GradesController {
     @Autowired
     GradesRepository gradesRepository;
     @ApiOperation(value="增加或更新一个裁判裁定的成绩")
+    @PostMapping("/insertAll")
+    public void insertManyGrades(@RequestBody List<Grades> grades){
+        for (Grades grade:grades
+             ) {
+            gradesRepository.save(grade);
+        }
+
+    }
+    @ApiOperation(value="增加或更新一个裁判裁定的成绩")
     @PostMapping("/insert")
     public Grades insertGrades(@RequestBody Grades grades){
         return gradesRepository.save(grades);

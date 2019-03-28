@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>评分界面</title>
+</head>
+<body>
+<div ng-controller="judgeCtrl">
+    <div class="content">
+        <div class="col-lg-10 col-lg-offset-1">
+            <div class="col-lg-10 col-lg-offset-1 panel panel-default" ng-repeat="grade in grades">
+                <div class="panel-heading"><p  class="row">运动员姓名:{{grade.athleteCompetition.athlete.name}}</p><p  class="row">项目名称:{{grade.athleteCompetition.competition.name}}</p></div>
+                <div class="panel-body">
+                    <div style="font-size: 12px" class="form-group row">
+                        <label  class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">是否通过:</label>
+                        <div class="col-lg-11">
+                            <span>{{grade.pass}}</span>
+                        </div>
+                    </div>
+                    <div style="font-size: 12px" class="form-group row" ng-show="!referee.sir">
+                        <label  class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">我的打分:</label>
+                        <div class="col-lg-11">
+                            <input  class="form-control" type="text" placeholder="请输入分数" ng-model="grade.nGrade" style="" >
+                        </div>
+                    </div>
+                    <button ng-show="!referee.sir" ng-click="updateGrade(grade)" class="btn btn-primary col-lg-offset-9 col-lg-2">提交成绩</button>
+                    <button ng-show="referee.sir" ng-click="showModel(grade)" data-toggle="modal" data-target="#myModal" class="btn btn-primary col-lg-offset-9 col-lg-2">决定是否通过</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        运动员姓名:{{AllGrades[0].athleteCompetition.athlete.name}}&nbsp;项目名称:{{AllGrades[0].athleteCompetition.competition.name}}</p>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="col-lg-10 col-lg-offset-1 panel panel-default" ng-repeat="grade in AllGrades">
+                        <div class="panel-heading"><p  class="row">{{grade.referee.name}}</p></div>
+                        <div class="panel-body">
+                            <div style="font-size: 12px" class="form-group row">
+                                <label  class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">是否通过:</label>
+                                <div class="col-lg-11">
+                                    <input  class="form-control" type="text" placeholder="请输入t/f" ng-model="grade.pass" ng-change="parseBool(grade,'pass')" style="" >
+                                </div>
+                            </div>
+                            <div style="font-size: 12px" class="form-group row" ng-show="!grade.referee.sir">
+                                <label  class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">裁判评分:</label>
+                                <div class="col-lg-11">
+                                    <span>{{grade.nGrade}}</span>
+                                </div>
+                            </div>
+                            <div style="font-size: 12px" class="form-group row" ng-show="grade.referee.sir">
+                                <label  class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">D分:</label>
+                                <div class="col-lg-11">
+                                    <input  class="form-control" type="text" placeholder="请输入分数" ng-model="grade.dGrade" style="" >
+                                </div>
+                            </div>
+                            <div style="font-size: 12px" class="form-group row" ng-show="grade.referee.sir">
+                                <label  class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">P分:</label>
+                                <div class="col-lg-11">
+                                    <input  class="form-control" type="text" placeholder="请输入分数" ng-model="grade.pGrade" style="" >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                    </button>
+                    <button type="button" class="btn btn-primary" ng-click="updateAll()">
+                        提交更改
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+</div>
+</body>
+</html>

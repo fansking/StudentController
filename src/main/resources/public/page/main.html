@@ -77,6 +77,12 @@
                         <input id="refereeIdentityNum" class="form-control" type="text" placeholder="请输入裁判员身份证号" ng-model="referee.identityNum" style="" >
                     </div>
                 </div>
+                    <div style="font-size: 12px" class="form-group row">
+                        <label for="refereeSir" class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">是否为裁判长:</label>
+                        <div class="col-lg-11">
+                            <input id="refereeSir" class="form-control" ng-change="parseBool(referee,'sir')" type="text" placeholder="请输入t/f" ng-model="referee.sir" style="" >
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-lg-10 col-lg-offset-1 panel panel-default">

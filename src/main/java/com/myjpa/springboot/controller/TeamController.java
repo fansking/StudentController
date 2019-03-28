@@ -62,27 +62,27 @@ public class TeamController {
         return service.findAllReferee();
     }
     @ApiOperation(value="新增教练")
-    @PostMapping("coach")
+    @PostMapping("/coach")
     public Coach coach(@RequestBody Coach coach){
         return service.insertCoach(coach);
     }
     @ApiOperation(value="新增领队")
-    @PostMapping("leader")
+    @PostMapping("/leader")
     public Leader leader(@RequestBody Leader leader){
         return service.insertLeader(leader);
     }
     @ApiOperation(value="新增队医")
-    @PostMapping("doctor")
+    @PostMapping("/doctor")
     public Doctor doctor(@RequestBody Doctor doctor){
         return service.insertDoctor(doctor);
     }
     @ApiOperation(value="新增裁判")
-    @PostMapping("referee")
+    @PostMapping("/referee")
     public Referee referee(@RequestBody Referee referee){
         return service.insertReferee(referee);
     }
     @ApiOperation(value="新增所有人员")
-    @PostMapping("all")
+    @PostMapping("/all")
     public void referee(@RequestBody Teamrequest re){
         if(Setting.runModel == 1) {
             service.addTeamMetaData(re.getAthletes(), re.getLeader(), re.getCoach(), re.getDoctor(), re.getReferee());

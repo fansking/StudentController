@@ -20,7 +20,7 @@ API_index.controller("assignCompetitionCtrl", ['$scope', '$http', '$state' ,func
         $scope.competitions.push(competition);
     };
     $scope.parseBool=function(x,y){
-        x[y]=(x[y]==='true');
+        x[y]=(x[y]==='t');
     };
     $scope.insertMany=function () {
         $http({

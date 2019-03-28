@@ -31,6 +31,9 @@ API_index.controller("mainCtrl", ['$scope', '$http', '$state','$stateParams' ,fu
         angular.copy($scope.athlete,a);
         $scope.athletes.push(a);
     };
+    $scope.parseBool=function(x,y){
+        x[y]=(x[y]==='t');
+    };
     $scope.insert=function(){
         let num={"male0":0,"male1":0,"male2":0,"female0":0,"female1":0,"female2":0};
         $scope.coach.male=($scope.coach.male==="男");

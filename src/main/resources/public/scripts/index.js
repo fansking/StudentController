@@ -9,6 +9,7 @@
         $scope.athleteUrl="http://localhost:8080/athlete";
         $scope.competitionUrl="http://localhost:8080/competition";
         $scope.athleteCompetitionUrl="http://localhost:8080/athleteCompetition";
+        $scope.gradesUrl="http://localhost:8080/grades";
         $scope.findAllTeams=function(){
             $http({
                 method: 'GET',
@@ -76,6 +77,25 @@
             url: '/assignAC',
             cache: false,
             templateUrl: '/page/assignAC.html',
+            // views: {
+            //     '': {
+            //         templateUrl: '/page/home/main.html',
+            //     }
+            // }
+        }).state('assignGrade', {
+            url: '/assignGrade',
+            cache: false,
+            templateUrl: '/page/assignGrade.html',
+            // views: {
+            //     '': {
+            //         templateUrl: '/page/home/main.html',
+            //     }
+            // }
+        }).state('judge', {
+            url: '/judge',
+            cache: false,
+            templateUrl: '/page/judge.html',
+            params:{referee:null}
             // views: {
             //     '': {
             //         templateUrl: '/page/home/main.html',

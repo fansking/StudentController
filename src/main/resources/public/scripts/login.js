@@ -38,7 +38,7 @@ API_index.controller("logInCtrl", ['$scope', '$http', '$state' ,function ($scope
             for(let i=0;i<$scope.referees.length;i++){
                 if($scope.referees[i].team.account===$scope.account&&$scope.referees[i].name===$scope.passWords){
                     alert("登陆成功");
-                    $state.go('main');
+                    $state.go('judge',{referee:$scope.referees[i]});
                     return;
                 }
             }

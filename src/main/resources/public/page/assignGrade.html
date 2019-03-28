@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>分配裁判</title>
+</head>
+<body>
+<div ng-controller="assignGradeCtrl">
+    <div class="content">
+        <a ng-click="refereeFlag=!refereeFlag">点我隐藏/展开裁判</a>
+        <a ng-click="ACFlag=!ACFlag">点我隐藏/展开赛事表</a>
+        <div class="col-lg-10 col-lg-offset-1" ng-show="refereeFlag">
+            <div class="col-lg-10 col-lg-offset-1 panel panel-default" ng-repeat="referee in referees">
+                <div class="panel-heading"><p  class="row">姓名:{{referee.name}}</p><p  class="row">队名:{{referee.team.name}}</p>
+                    <p  class="row">是否为裁判长:{{referee.sir}}</p></div>
+
+                <label><input name="referee" type="radio" ng-click="selectReferee($index)"/>裁判身份证:{{referee.identityNum}}</label>
+
+            </div>
+        </div>
+        <div class="col-lg-10 col-lg-offset-1" ng-show="ACFlag">
+            <div class="col-lg-10 col-lg-offset-1 panel panel-default" ng-repeat="AC in ACs">
+                <div class="panel-heading"><p  class="row">运动员姓名:{{AC.athlete.name}}</p><p  class="row">项目名称:{{AC.competition.name}}</p>
+                    </div>
+
+                <label><input name="com" type="radio" value="2" ng-click="selectAC($index)"/>选择</label>
+
+            </div>
+        </div>
+        <div class="col-lg-10 col-lg-offset-1">
+            <button ng-click="insertAC()" class="btn btn-primary col-lg-offset-9 col-lg-2">增加成绩单</button>
+        </div>
+
+    </div>
+
+
+</div>
+</body>
+</html>
