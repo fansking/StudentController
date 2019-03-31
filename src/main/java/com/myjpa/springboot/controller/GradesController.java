@@ -1,9 +1,11 @@
 package com.myjpa.springboot.controller;
 
+import com.myjpa.springboot.entity.AthleteCompetition;
 import com.myjpa.springboot.entity.Competition;
 import com.myjpa.springboot.entity.Grades;
 import com.myjpa.springboot.repository.GradesRepository;
 import com.myjpa.springboot.service.ApiService;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +22,36 @@ public class GradesController {
     GradesRepository gradesRepository;
     @ApiOperation(value="增加或更新一个裁判裁定的成绩")
     @PostMapping("/insertAll")
-    public void insertManyGrades(@RequestBody List<Grades> grades){
-        for (Grades grade:grades
-             ) {
+    public Boolean insertManyGrades(@RequestBody List<Grades> grades){
+        Boolean flag=true;
+        double max=0;
+        double min=grades.get(0).getnGrade();
+        double d=0;
+        double p=0;
+        double sum=0;
+        for (Grades grade:grades) {
             gradesRepository.save(grade);
+            flag=flag&&grade.getPass();
+            if(!grade.getReferee().getSir()){
+                max=max>grade.getnGrade()?max:grade.getnGrade();
+                min=min<grade.getnGrade()?min:grade.getnGrade();
+                sum+=grade.getnGrade();
+            }else{
+                d=grade.getdGrade();
+                p=grade.getpGrade();
+            }
         }
+        if(flag){
+            AthleteCompetition ac=grades.get(0).getAthleteCompetition();
+            sum=sum-max-min;
 
+            ac.setScore(sum/(grades.size()-3)*(grades.size()-1)+d-p);
+            if(ac.getScore()<0){
+                return false;
+            }
+            service.saveAC(ac);
+        }
+        return true;
     }
     @ApiOperation(value="增加或更新一个裁判裁定的成绩")
     @PostMapping("/insert")
@@ -36,6 +62,23 @@ public class GradesController {
     @GetMapping("/find")
     public List<Grades> findAll(){
         return gradesRepository.findAll();
+    }
+    @ApiOperation(value="")
+    @GetMapping("/autoCalculate")
+    public Boolean autoCalculate(){
+        List<Competition> competitions=service.findAllCom();
+        for(Competition competition:competitions){
+            List<AthleteCompetition> athleteCompetitions=service.findByCompetition_IdOrderByScoreDesc(competition.getId())  ;
+            for(int i=0;i<athleteCompetitions.size();i++){
+                athleteCompetitions.get(i).setAthleteRank(i+1);
+                if(athleteCompetitions.get(i).getScore()<0){
+                    return false;
+                }
+                service.saveAC(athleteCompetitions.get(i));
+            }
+
+        }
+        return true;
     }
     @ApiOperation(value="")
     @GetMapping("/findByRefereeIdentityNum/{refereeId}")

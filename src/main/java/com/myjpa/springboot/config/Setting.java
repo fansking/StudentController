@@ -1,5 +1,5 @@
 package com.myjpa.springboot.config;
 
 public class Setting {
-    public static Integer runModel = 2;
+    public static Integer runModel = 1;
 }

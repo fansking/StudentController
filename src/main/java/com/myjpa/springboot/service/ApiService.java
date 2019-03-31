@@ -43,6 +43,15 @@ public class ApiService implements InitializingBean {
         refereeRepository.save(referee);
 
     }
+    public List<Competition> findAllCom(){
+        return competitionRepository.findAll();
+    }
+    public List<AthleteCompetition> findByCompetition_IdOrderByScoreDesc(Integer id){
+        return athleteCompetitionRepository.findByCompetition_IdOrderByScoreDesc(id);
+    }
+    public void saveAC(AthleteCompetition athleteCompetition){
+        athleteCompetitionRepository.save(athleteCompetition);
+    }
     public  List<Referee> findAllReferee(){
         return refereeRepository.findAll();
     }

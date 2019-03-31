@@ -15,7 +15,19 @@ API_index.controller("logInCtrl", ['$scope', '$http', '$state' ,function ($scope
         $scope.status=x;
     };
     $scope.goto=function(page){
-        $state.go(page);
+        if(page!=='auto'){
+            $state.go(page);
+        }else{
+            $http({
+                method: 'GET',
+                url: $scope.gradesUrl+'/autoCalculate'
+            }).then(function successCallback(response) {
+                if(response.data===true){
+                    alert('计算成功，请到数据库查看');
+                }
+            });
+        }
+
     };
     $scope.logIn=function(){
         if($scope.status==='管理员'){
