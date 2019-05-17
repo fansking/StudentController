@@ -8,19 +8,19 @@
 <div ng-controller="logInCtrl">
     <div class="content">
         <div class="col-lg-10 col-lg-offset-1" ng-show="!suFlag">
-            <label><input name="status" type="radio" value="管理员" ng-click="select('管理员')" checked/>管理员 </label>
-            <label><input name="status" type="radio" value="领队" ng-click="select('领队')"/>领队 </label>
-            <label><input name="status" type="radio" value="裁判" ng-click="select('裁判')"/>裁判 </label>
+            <label><input name="status" ng-model="status" type="radio" value="管理员" ng-click="radioChanged('管理员')" />管理员 </label>
+            <label><input name="status" ng-model="status" type="radio" value="领队" ng-click="radioChanged('领队')" />领队 </label>
+            <label><input name="status" ng-model="status" type="radio" value="裁判" ng-click="radioChanged('裁判')" />裁判 </label>
             <div style="font-size: 12px" class="form-group row">
-                <label  class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">用户:</label>
+                <label  class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">{{text1}}:</label>
                 <div class="col-lg-11">
-                    <input  class="form-control" type="text" placeholder="请输入账号" ng-model="account" style="" >
+                    <input  class="form-control" type="text" placeholder="请输入{{text1}}" ng-model="account" style="" >
                 </div>
             </div>
             <div style="font-size: 12px" class="form-group row">
-                <label  class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">密码:</label>
+                <label  class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">{{text2}}:</label>
                 <div class="col-lg-11">
-                    <input  class="form-control" type="text" placeholder="请输入密码" ng-model="passWords" style="" ng-keypress="keypress($event)">
+                    <input  class="form-control" type="{{passType}}" placeholder="请输入{{text2}}" ng-model="passWords" style="" ng-keypress="keypress($event)">
                 </div>
             </div>
             <button ng-click="logIn()" class="btn btn-primary col-lg-offset-9 col-lg-2">登陆</button>

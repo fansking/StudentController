@@ -12,4 +12,7 @@ public class AthleteDao extends BaseDao<DBAthlete> {
     public List<DBAthlete> findByNameAndScores(String name,Integer scores){
         return findBy(name,scores);
     }
+    public List<DBAthlete> findByTeam_id(Integer teamId){
+        return findBy(teamId);
+    }
 }

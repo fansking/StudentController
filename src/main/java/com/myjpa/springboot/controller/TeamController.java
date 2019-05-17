@@ -1,8 +1,13 @@
 package com.myjpa.springboot.controller;
 
 import com.myjpa.springboot.config.Setting;
-import com.myjpa.springboot.dao.TeamsDao;
+import com.myjpa.springboot.config.Utils;
+import com.myjpa.springboot.dao.*;
 import com.myjpa.springboot.entity.*;
+import com.myjpa.springboot.entity.dbentity.DBCoaches;
+import com.myjpa.springboot.entity.dbentity.DBDoctors;
+import com.myjpa.springboot.entity.dbentity.DBLeaders;
+import com.myjpa.springboot.entity.dbentity.DBReferees;
 import com.myjpa.springboot.repository.TeamRepository;
 import com.myjpa.springboot.service.ApiService;
 import com.myjpa.springboot.service.dbService.DBApiService;
@@ -10,6 +15,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -91,6 +97,21 @@ public class TeamController {
         }
     }
 
+    @GetMapping("/findByTeamID/{teamID}")
+    public Teamrequest findAllByTeamID(@PathVariable Integer teamID){
+        Teamrequest teamrequest = new Teamrequest();
+        if(Setting.runModel == 0){
+        } else {
+            teamrequest.setAthletes(Athlete.getListAthlete(new AthleteDao().findByTeam_id(teamID)));
+            Object[] objects = new CoachesDao().findByTeam_id(teamID).toArray();
+            List<Object> objects1 = Arrays.asList(objects);
+            teamrequest.setCoach(new Coach((DBCoaches)Utils.getFirstOneFromList(Arrays.asList(new CoachesDao().findByTeam_id(teamID).toArray()))));
+            teamrequest.setDoctor(new Doctor((DBDoctors)Utils.getFirstOneFromList(Arrays.asList(new DoctorsDao().findByTeam_id(teamID).toArray()))));
+            teamrequest.setLeader(new Leader((DBLeaders)Utils.getFirstOneFromList(Arrays.asList(new LeaderDao().findByTeam_id(teamID).toArray()))));
+            teamrequest.setReferee(new Referee((DBReferees)Utils.getFirstOneFromList(Arrays.asList(new RefereesDao().findByTeam_id(teamID).toArray()))));
+        }
+        return teamrequest;
+    }
 }
 class Teamrequest{
     List<Athlete> athletes;

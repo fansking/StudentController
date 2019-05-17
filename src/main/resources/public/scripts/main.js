@@ -8,6 +8,25 @@ API_index.controller("mainCtrl", ['$scope', '$http', '$state','$stateParams' ,fu
     $scope.doctor={"identityNum":"","name":"","phoneNum":""};
     $scope.referee={"identityNum":"","name":"","phoneNum":""};
     $scope.coach={"identityNum":"","name":"","phoneNum":"",'male':"男"};
+    $scope.findAllByTeam= function(){
+        $http({
+            method:"get",
+            url: $scope.teamUrl+"/findByTeamID/"+$scope.team.id
+        }).then(function successCallBack(response){
+            console.log(response.data);
+            let data = response.data;
+            $scope.leader = data.leader;
+            $scope.doctor = data.doctor;
+            $scope.referee = data.referee;
+            $scope.coach = data.coach;
+            $scope.coach.male = $scope.coach.male?"男":"女";
+            $scope.athletes = data.athletes;
+            for (var i = 0 ; i < $scope.athletes.length ; i++){
+                $scope.athletes[i].male = $scope.athletes[i].male?"男":"女";
+            }
+        })
+    };
+    $scope.findAllByTeam();
     $scope.isMale=["男","女"];
     $scope.maleCompetitions=['单杠双杠','吊环','跳马','自由体操','鞍马','蹦床'];
     $scope.femaleCompetitions=['高低杠','平衡木','跳马','自由体操','蹦床'];
@@ -19,10 +38,10 @@ API_index.controller("mainCtrl", ['$scope', '$http', '$state','$stateParams' ,fu
         "name": "",
         "teamName": $scope.team.name
     };
-    $scope.athletes=[];
+    // $scope.athletes=[];
     let ath={};
     angular.copy($scope.athlete,ath);
-    $scope.athletes.push(ath);
+    // $scope.athletes.push(ath);
     $scope.selectCompet=function(compet,x){
         x.competitionStr+=compet+" ";
     };

@@ -44,7 +44,7 @@ public class LoginController {
         }
     }
 
-    @ApiOperation(value="教练登陆")
+    @ApiOperation(value="裁判登陆")
     @GetMapping("/referee/{account}/{passWord}")
     public Referee RefereeLogin(@PathVariable String account, @PathVariable String passWord){
         List<Referee> referees ;

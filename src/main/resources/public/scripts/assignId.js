@@ -5,8 +5,9 @@ var API_index = angular.module("API_index");
 API_index.controller("assignCtrl", ['$scope', '$http', '$state' ,function ($scope, $http, $state) {
     $http({
         method: 'GET',
-        url: $scope.athleteUrl+"/findAll"
+        url: $scope.athleteUrl+"/autoCalId"
     }).then(function successCallback(response) {
+        alert("自动编号成功！");
         $scope.athletes=response.data;
     });
     $scope.insertMany=function () {

@@ -2,6 +2,7 @@ package com.myjpa.springboot.controller;
 
 
 import com.myjpa.springboot.config.Setting;
+import com.myjpa.springboot.dao.AthleteDao;
 import com.myjpa.springboot.entity.Athlete;
 import com.myjpa.springboot.repository.AthleteRepository;
 import io.swagger.annotations.ApiOperation;
@@ -68,5 +69,27 @@ public class AthleteController {
         athleteRepository.deleteById(id);
     }
 
+    @GetMapping("/autoCalId")
+    public List<Athlete> autoCalId(){
+        List<Athlete> athleteList;
+        if(Setting.runModel == 1){
+            athleteList = athleteRepository.findAll();
+        } else {
+            athleteList = Athlete.getListAthlete(new AthleteDao().findAll());
+        }
+
+        int maleId = 0,famaleId = 1;
+        for(int i = 0 ; i < athleteList.size() ; i++){
+            if(athleteList.get(i).getMale()){
+                athleteList.get(i).setAthleteId(String.format("%03d",maleId));
+                maleId+=2;
+            }else{
+                athleteList.get(i).setAthleteId(String.format("%03d",famaleId));
+                famaleId+=2;
+            }
+        }
+        athleteRepository.saveAll(athleteList);
+        return athleteList;
+    }
 
 }

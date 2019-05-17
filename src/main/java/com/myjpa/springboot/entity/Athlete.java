@@ -6,7 +6,9 @@ import com.myjpa.springboot.entity.dbentity.DBAthlete;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 //使用JPA注解配置映射关系
@@ -83,6 +85,14 @@ public class Athlete implements Serializable {
         isMale = dbAthlete.getIs_male();
         scores = dbAthlete.getScores();
         competitionStr = dbAthlete.getCompetition_str();
+    }
+
+    public static List<Athlete> getListAthlete(List<DBAthlete> dbAthletes){
+        List<Athlete> athletes = new ArrayList<>();
+        for(DBAthlete dbAthlete : dbAthletes){
+            athletes.add(new Athlete(dbAthlete));
+        }
+        return athletes;
     }
 
     public String getName() {

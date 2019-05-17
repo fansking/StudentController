@@ -201,6 +201,10 @@ public abstract class BaseDao<T> {
         return result;
     }
 
+    /**
+     * 保存和修改的方法
+     * @param entity
+     */
     public void save(T entity) {
         try {
             List<T> info = findInfo(entity);
@@ -214,6 +218,21 @@ public abstract class BaseDao<T> {
         }
     }
 
+    /**
+     * 保存或修改所有的方法
+     * @param entities
+     */
+    public void saveAll(List<T> entities){
+        try{
+            if(entities != null && entities.size()>0){
+                for(T entity : entities){
+                    save(entity);
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
     /**
      * 内部的查找方法，通过传入的数据和上层调用方法的名称来确定查找的列

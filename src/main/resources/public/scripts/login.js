@@ -11,6 +11,9 @@ API_index.controller("logInCtrl", ['$scope', '$http', '$state' ,function ($scope
     $scope.account="";
     $scope.passWords="";
     $scope.status="管理员";
+    $scope.passType = "password";
+    $scope.text1 = "账号";
+    $scope.text2 = "密码";
     $scope.select=function (x) {
         $scope.status=x;
     };
@@ -85,6 +88,19 @@ API_index.controller("logInCtrl", ['$scope', '$http', '$state' ,function ($scope
         var keycode = window.event ? e.keyCode : e.which;
         if (keycode == 13){
             $scope.logIn()
+        }
+    }
+
+    $scope.radioChanged = function (status) {
+        $scope.status = status
+        if (status == "裁判"){
+            $scope.passType = "text";
+            $scope.text1 = "队伍账号";
+            $scope.text2 = "裁判姓名"
+        }  else {
+            $scope.passType = "password";
+            $scope.text1 = "账号";
+            $scope.text2 = "密码";
         }
     }
 }]);

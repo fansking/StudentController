@@ -128,7 +128,7 @@
                         <div style="font-size: 12px" class="form-group row">
                             <label  class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">性别:</label>
                             <div class="col-lg-11">
-                                <select  class="form-control" ng-model="x.male" ng-options="m for m in isMale" style="" ></select>
+                                <select  class="form-control" ng-model="x.male?'男':'女'" ng-options="m for m in isMale" style="" ></select>
                             </div>
                         </div>
                         <div style="font-size: 12px" class="form-group row">
@@ -136,13 +136,6 @@
                             <div class="col-lg-11">
                                 <input class="form-control" type="text" placeholder="请输入队员年龄" ng-model="x.age" style="" >
                             </div>
-                        </div>
-                        <div style="font-size: 12px" class="form-group row">
-                            <label class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">手机号:</label>
-                            <div class="col-lg-11">
-                                <input class="form-control" type="text" placeholder="请输入队员手机号" ng-model="x.phoneNum" style="" >
-                            </div>
-
                         </div>
                         <div style="font-size: 12px" class="form-group row">
                             <label for="coachPhoneNum" class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">参加项目:</label>
