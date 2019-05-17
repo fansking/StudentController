@@ -53,7 +53,7 @@ public class TeamController {
             return teamRepository.findAll();
         }
         else {
-            return  null;
+            return Team.getListTeam(teamsDao.findAll());
         }
     }
     @ApiOperation(value="查找所有裁判")

@@ -2,11 +2,11 @@ var API_index = angular.module("API_index");
 // 主页控制器
 API_index.controller("judgeCtrl", ['$scope', '$http', '$state','$stateParams' ,function ($scope, $http, $state,$stateParams) {
     $scope.referee=$stateParams.referee;
+    $scope.grades=[];
     $http({
         method: 'GET',
         url: $scope.gradesUrl+"/findByRefereeIdentityNum/"+$scope.referee.identityNum
     }).then(function successCallback(response) {
-        $scope.grades=[];
         for(let i=0;i<response.data.length;i++){
             if(response.data[i].pass===null||response.data[i].pass===false){
                 $scope.grades.push(response.data[i]);
@@ -14,6 +14,7 @@ API_index.controller("judgeCtrl", ['$scope', '$http', '$state','$stateParams' ,f
         }
     });
 
+    console.log($scope.referee,$scope.grades)
     $scope.findAll=function(AId,CId){
         $http({
             method: 'GET',

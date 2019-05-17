@@ -50,6 +50,14 @@ public class Team {
     public Team() {
     }
 
+    public static List<Team> getListTeam(List<DBTeams> dbTeams){
+        List<Team> teams = new ArrayList<>();
+        for(DBTeams dbTeams1 : dbTeams){
+            teams.add(new Team(dbTeams1));
+        }
+        return teams;
+    }
+
     public Referee getReferee() {
         return referee;
     }

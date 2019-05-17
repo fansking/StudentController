@@ -1,8 +1,6 @@
 package com.myjpa.springboot.dao.base;
 
-import javax.tools.JavaCompiler;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.sql.*;
@@ -10,79 +8,13 @@ import java.util.*;
 import java.util.Map.Entry;
 
 public abstract class BaseDao<T> {
-    // JDBC 驱动名及数据库 URL
-    static String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    static String DB_URL = "jdbc:mysql://localhost:3306/dbsport";
-
-    // 数据库的用户名与密码，需要根据自己的设置
-    static String USER = "root";
-    static String PASS = "123456";
-
-    public Connection conn;
-    public PreparedStatement statement;
-    public ResultSet rs;
-
+    DBUtil dbUtil ;
     Class<T> clazz;
 
     public BaseDao() {
         ParameterizedType pt = (ParameterizedType) this.getClass().getGenericSuperclass(); // BaseDaoImpl<User>
         clazz = (Class<T>) pt.getActualTypeArguments()[0];
-    }
-
-    static {
-        try {
-            Class.forName(JDBC_DRIVER);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * 连接数据库
-     *
-     * @return
-     * @throws Exception
-     */
-    public Connection getConnection() {
-        try {
-            Class.forName(JDBC_DRIVER);
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return conn;
-    }
-
-    /**
-     * 关闭数据库连接
-     *
-     * @throws Exception
-     */
-    public void close() {
-        try {
-            if (rs != null) {
-                rs.close();
-            }
-            if (statement != null) {
-                statement.close();
-            }
-            if (conn != null) {
-                conn.close();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void close(Connection conn) {
-        try {
-            conn.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        dbUtil = new MysqlDBUtil();
     }
 
     /**
@@ -93,9 +25,9 @@ public abstract class BaseDao<T> {
      * @return 结果集
      */
     public ResultSet getResultSet(String sql, Object... objects) {
-        getConnection();
+        Connection conn = dbUtil.getConnection();
         try {
-            statement = conn.prepareStatement(sql);
+            PreparedStatement statement = conn.prepareStatement(sql);
             if (objects != null && objects.length > 0) {
                 for (int i = 0; i < objects.length; i++) {
                     statement.setObject((i + 1), objects[i]);
@@ -105,18 +37,23 @@ public abstract class BaseDao<T> {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
+            //dbUtil.close(conn);
         }
         return null;
     }
 
+
     /**
      * 增删改的通用方法
+     * @param sql
+     * @param objects 参数
+     * @return 影响的行数
      */
     public int update(String sql, Object... objects) {
-        getConnection();
+        Connection conn = dbUtil.getConnection();
         int num = 0;
         try {
-            statement = conn.prepareStatement(sql);
+            PreparedStatement statement = conn.prepareStatement(sql);
             if (objects != null) {
                 for (int i = 0; i < objects.length; i++) {
                     statement.setObject((i + 1), objects[i]);
@@ -126,7 +63,7 @@ public abstract class BaseDao<T> {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close();
+            dbUtil.close(conn);
         }
         return num;
     }
@@ -140,28 +77,16 @@ public abstract class BaseDao<T> {
      */
     @SuppressWarnings("unchecked")
     public List<T> findBySql(String sql, Object... params) {
-        getConnection();
+        Connection conn = dbUtil.getConnection();
         List<T> entityList = null;
 
         try {
-            statement = conn.prepareStatement(sql);
-
-            // 将传入的所有参数 通过setObject 添加到 pstmt 的参数列表中
-            // 参数不为0或者参数数组不为null时才遍历参数数组
-            if (params != null && params.length != 0) {
-                for (int i = 1; i <= params.length; i++) {
-                    // pstmt.setObject方法下标从1开始 而数组下标从0开始
-                    statement.setObject(i, params[i - 1]);
-                }
-            }
-
-            rs = statement.executeQuery();
+            ResultSet rs = getResultSet(sql,params);
 
             entityList = new ArrayList<T>();
 
             // 如果结果集对象不为null 而且不为空
             if (rs != null && rs.next()) {
-                //re.next 要使用 rs.previous() 方法将游标移动到第一行之前
                 rs.previous();
                 //得到 结果集 rs的元数据
                 ResultSetMetaData data = rs.getMetaData();
@@ -188,25 +113,25 @@ public abstract class BaseDao<T> {
                         // 生成要执行的SetXXX()方法 (如：SetAdminName()该方法和属性
                         // (列名adminName)区别是列名首字母是小写的)
                         // 注意！！！ 应该用replaceFirst 方法 (如果用replace方法)
-                        // adminName 会变成setAdminNAme() 会抛出不到该方法异常！！
                         String methodName = "set"
                                 + columnName.replaceFirst(columnName.charAt(0)
                                 + "", new String(columnName.charAt(0)
                                 + "").toUpperCase());
 
-                        // 打印列名测试
-                        // System.out.println(new String(columnName.charAt(0) +
-                        // "").toUpperCase());
-                        // System.out.println(methodName);
 
                         // //利用反射机制，生成setXX()方法的 Method 对象并调用(invoke)该setXX()方法。
                         // 通过泛型对象t 的getClass() 方法得到其类, 然后 通过刚得到 方法名
                         // 调用类的setXXX()方法. 其中 getMethod 方法需要参数 分别为 (方法名,参数列表的类型)
+                        try {
                         Method method = t.getClass().getMethod(methodName,
                                 value.getClass());
 
                         // 调用method 的invoke 方法 调用得到的方法(即setXXX(value) 方法)
-                        method.invoke(t, value);
+
+                            method.invoke(t, value);
+                        }catch (Exception e){
+                            System.out.println("method: "+methodName+" fail!!");
+                        }
                     }
                     // 将赋值 完成的泛型 对象 t 放入列表中 并返回这个列表
                     entityList.add((T) t);
@@ -215,41 +140,65 @@ public abstract class BaseDao<T> {
 
             return entityList;
 
-        } catch (SQLException e) {
+        } catch (Exception e){
             e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } finally {
-            close();
+        }
+        finally {
+            dbUtil.close(conn);
         }
         return null;
     }
 
+    public List<HashMap<String,Object>> getResultMap(String sql,Object... params){
+        Connection conn = dbUtil.getConnection();
+        try {
+            ResultSet rs = getResultSet(sql,params);
+            List<HashMap<String,Object>> result = new ArrayList<>();
+            if (rs != null && rs.next()) {
+                rs.previous();
+                ResultSetMetaData data = rs.getMetaData();
+                while (rs.next()) {
+                    int count = data.getColumnCount();
+                    HashMap<String,Object> mapData = new HashMap<>();
+                    for (int i = 1; i <= count; i++) {
+                        String columnName = data.getColumnName(i);
+                        Object value = rs.getObject(i);
+                         mapData.put(columnName,value);
+                    }
+                   result.add(mapData);
+                }
+            }
+            return result;
+        } catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            dbUtil.close(conn);
+        }
+        return null;
+    }
+
+    /**
+     * 获取当前实体的类名转化后的对应表名
+     * @param clazz
+     * @return
+     */
     public String getTableName(Class clazz) {
         String tableName = clazz.getSimpleName();
         tableName = tableName.substring(2, tableName.length()).toLowerCase();
         return tableName;
     }
 
+    /**
+     * 查询所有结果
+     * @return
+     */
     public List<T> findAll() {
         String sql = "select * " +
                 "from ";
         String tableName = getTableName(clazz);
         sql += tableName;
-        List<T> Ts = findBySql(sql);
-        return Ts;
+        List<T> result = findBySql(sql);
+        return result;
     }
 
     public void save(T entity) {
@@ -264,6 +213,7 @@ public abstract class BaseDao<T> {
             e.printStackTrace();
         }
     }
+
 
     /**
      * 内部的查找方法，通过传入的数据和上层调用方法的名称来确定查找的列
@@ -320,7 +270,6 @@ public abstract class BaseDao<T> {
      * @return 下一个id的值
      */
     public Integer getNextId() {
-        getConnection();
         try {
             String sql = "select * from hibernate_sequence";
             ResultSet resultSet = getResultSet(sql);
@@ -373,7 +322,7 @@ public abstract class BaseDao<T> {
                 Method getMethod = entity.getClass().getMethod(getMethodName,null);
                 Object result = getMethod.invoke(entity);
 
-                // 仅对未传入默认主键值或者传入为0时才让主键自增
+                // 仅对未传入默认主键值才让主键自增
                 if(result == null && result.getClass() == Integer.class) {
                     Method setmethod = entity.getClass().getMethod(setMethodName, Integer.class);
                     setmethod.invoke(entity, getNextId());
@@ -425,7 +374,7 @@ public abstract class BaseDao<T> {
         Connection conn = null;
         PreparedStatement pstm = null;
         try {
-            conn = getConnection();
+            conn = dbUtil.getConnection();
             pstm = conn.prepareStatement(sql);
             int i = 1;
             for(Object id : ids){
@@ -436,7 +385,7 @@ public abstract class BaseDao<T> {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            close(conn);
+           dbUtil.close(conn);
         }
     }
 
@@ -451,7 +400,7 @@ public abstract class BaseDao<T> {
         //获取sql
         String sql = getquerySQL(paramMap,tableName);
         // 执行sql
-        return excutQuery(sql,paramMap,tableName);
+        return excutQuery(sql,paramMap);
     }
 
     public List<T> findInfo(Map paramMap) {
@@ -462,7 +411,7 @@ public abstract class BaseDao<T> {
         //获取sql
         String sql = getquerySQL(paramMap,tableName);
         //执行SQL
-        return excutQuery(sql,paramMap,tableName);
+        return excutQuery(sql,paramMap);
     }
 
     /**
@@ -481,7 +430,7 @@ public abstract class BaseDao<T> {
         ResultSet rs = null;
         T e = null;
         try {
-            conn = getConnection();
+            conn = dbUtil.getConnection();
             pstm = conn.prepareStatement(sql);
             pstm.setObject(1, id);
             rs = pstm.executeQuery();
@@ -490,7 +439,7 @@ public abstract class BaseDao<T> {
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
-            close(conn);
+            dbUtil.close(conn);
         }
         return e;
     }
@@ -512,7 +461,7 @@ public abstract class BaseDao<T> {
         ResultSet rs = null;
         Integer pagenumsss = 0;
         try {
-            conn = getConnection();
+            conn = dbUtil.getConnection();
             pstm = conn.prepareStatement(sql);
             int i = 1;
             for (Map.Entry<String, Object> entry : paramMap.entrySet()) {
@@ -531,7 +480,7 @@ public abstract class BaseDao<T> {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            close(conn);
+            dbUtil.close(conn);
         }
         return pagenumsss;
     }
@@ -603,7 +552,7 @@ public abstract class BaseDao<T> {
         ResultSet rs = null;
        List<String> primKeyName = new ArrayList<>();
         try {
-            conn = getConnection();
+            conn = dbUtil.getConnection();
             metaData = conn.getMetaData();
             rs = metaData.getPrimaryKeys(conn.getCatalog(), null, tableName.toUpperCase());
             while (rs.next()) {
@@ -612,7 +561,7 @@ public abstract class BaseDao<T> {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(conn);
+            dbUtil.close(conn);
         }
         return primKeyName;
     }
@@ -630,7 +579,7 @@ public abstract class BaseDao<T> {
         Connection conn = null;
         PreparedStatement pstm = null;
         try {
-            conn = getConnection();
+            conn = dbUtil.getConnection();
             pstm = conn.prepareStatement(sql);
             //赋值
             int i = 1;
@@ -647,7 +596,7 @@ public abstract class BaseDao<T> {
             e1.printStackTrace();
             flag = false;
         } finally {
-            close(conn);
+            dbUtil.close(conn);
         }
         return flag;
     }
@@ -687,14 +636,13 @@ public abstract class BaseDao<T> {
      * 执行查询全部SQL
      * @param sql
      * @param paramMap
-     * @param tableName
      */
-    private List<T> excutQuery(String sql, Map<String, Object> paramMap, String tableName) {
+    private List<T> excutQuery(String sql, Map<String, Object> paramMap) {
         Connection conn = null;
         PreparedStatement pstm = null;
         ResultSet rs = null;
         try {
-            conn = getConnection();
+            conn = dbUtil.getConnection();
             pstm = conn.prepareStatement(sql);
             int i = 1;
             for (Entry<String,Object> entry : paramMap.entrySet()) {
@@ -712,7 +660,7 @@ public abstract class BaseDao<T> {
         } catch (Exception e) {
             e.printStackTrace();
         }finally{
-            close(conn);
+            dbUtil.close(conn);
         }
         return null;
     }
@@ -796,7 +744,7 @@ public abstract class BaseDao<T> {
         Connection conn = null;
         DatabaseMetaData metaData = null;
         ResultSet rs = null;
-        conn = getConnection();
+        conn = dbUtil.getConnection();
         try {
             metaData = conn.getMetaData();
             rs = metaData.getColumns(conn.getCatalog(), null, tableName.toUpperCase(), null);
@@ -807,7 +755,7 @@ public abstract class BaseDao<T> {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(conn);
+            dbUtil.close(conn);
         }
         return columnList;
     }
@@ -844,5 +792,54 @@ public abstract class BaseDao<T> {
             list.add(e);
         }
         return list;
+    }
+
+    public List<List<Object>> findWithSqlAndLeftJoin(String sql,List<Class> classes,Object... params) {
+        try {
+            ResultSet rs = getResultSet(sql, params);
+            List<List<Object>> result = new ArrayList<>();
+            if (rs != null && rs.next()) {
+                rs.previous();
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public List<String> getForeignTableNameAndKey(){
+        List<String> names = new ArrayList<>();
+        try {
+            Connection conn = dbUtil.getConnection();
+            DatabaseMetaData metaData = conn.getMetaData();
+            ResultSet rs = metaData.getExportedKeys(conn.getCatalog(), null, getTableName(clazz).toUpperCase());
+            while (rs.next()) {
+//                exportKeyName.add(rs.getString("PKTABLE_NAME"));
+//                exportKeyName.add(rs.getString("PKCOLUMN_NAME"));
+                names.add(rs.getString("FKTABLE_NAME"));
+                names.add(rs.getString("FKCOLUMN_NAME"));
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return names;
+    }
+
+    public String getSelectSql(){
+        String result = "select * from "+getTableName(clazz)+" ";
+        String curTableName = getTableName(clazz);
+        String curPrimKey = getPrimKey(getTableName(clazz)).get(0);
+        StringBuilder sb = new StringBuilder(result);
+        List<String> foreignTableNameAndKey = getForeignTableNameAndKey();
+        for(int i = 0 ; i < foreignTableNameAndKey.size() ; i+=2){
+            String tableName = foreignTableNameAndKey.get(i);
+            String id = foreignTableNameAndKey.get(i+1);
+            sb.append("left join ").append(tableName).append(" on ").append(curTableName)
+                    .append(".");
+        }
+
+        return result;
     }
 }

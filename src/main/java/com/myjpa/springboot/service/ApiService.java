@@ -6,6 +6,8 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -66,5 +68,31 @@ public class ApiService implements InitializingBean {
     }
     public Referee insertReferee(Referee referee){
         return refereeRepository.save(referee);
+    }
+    public Object findAllRank () {
+        List<Object> result = new ArrayList<>();
+        List<Competition> competitionList = competitionRepository.findAll();
+        for (Competition competition : competitionList) {
+            List<AthleteCompetition> athleteCompetitionList = athleteCompetitionRepository.findByCompetition_IdOrderByScoreDesc(competition.getId());
+            if (athleteCompetitionList != null && athleteCompetitionList.size() > 0) {
+                HashMap<String, Object> competitionData = new HashMap<>();
+                competitionData.put("competitionName", competition.getName());
+                List<Object> rankDataList = new ArrayList<>();
+                for (AthleteCompetition athleteCompetition : athleteCompetitionList) {
+                    HashMap<String, Object> lineData = new HashMap<>();
+                    lineData.put("athleteName", athleteCompetition.getAthlete().getName());
+                    lineData.put("teamName", athleteCompetition.getAthlete().getTeam().getName());
+                    lineData.put("score", athleteCompetition.getScore());
+                    lineData.put("pScore", gradesRepository.findByAthlete_IdAndCompetition_IdAndDGradeNotNull(athleteCompetition.getAthlete().getId(), athleteCompetition.getCompetition().getId()).get(0).getpGrade());
+                    lineData.put("dScore", gradesRepository.findByAthlete_IdAndCompetition_IdAndDGradeNotNull(athleteCompetition.getAthlete().getId(), athleteCompetition.getCompetition().getId()).get(0).getdGrade());
+                    lineData.put("rank", athleteCompetition.getAthleteRank());
+                    rankDataList.add(lineData);
+                }
+                competitionData.put("data", rankDataList);
+
+                result.add(competitionData);
+            }
+        }
+        return result;
     }
 }

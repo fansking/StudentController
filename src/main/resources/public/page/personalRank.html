@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人成绩排名</title>
+</head>
+<body>
+<div class="col-lg-10 col-lg-offset-1" style="margin-top: 30px;" ng-controller="personalRankCtrl">
+    <div class="col-lg-10 col-lg-offset-1 panel panel-default" ng-repeat="competition in competitions">
+        <p style="font-size: 20px">比赛项目：{{competition.competitionName}}</p>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>运动员姓名</th>
+                <th>队伍</th>
+                <th>总成绩</th>
+                <th>P分</th>
+                <th>D分</th>
+                <th>排名</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="athlete in competition.data">
+                <td>{{athlete.athleteName}}</td>
+                <td>{{athlete.teamName}}</td>
+                <td>{{athlete.score}}</td>
+                <td>{{athlete.pScore}}</td>
+                <td>{{athlete.dScore}}</td>
+                <td>{{athlete.rank}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

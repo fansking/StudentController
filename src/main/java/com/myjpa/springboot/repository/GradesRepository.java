@@ -1,9 +1,7 @@
 package com.myjpa.springboot.repository;
 
-import com.myjpa.springboot.entity.Doctor;
 import com.myjpa.springboot.entity.Grades;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,4 +21,6 @@ public interface GradesRepository extends JpaRepository<Grades,Integer> {
     @Transactional
     @Query(value = "select * from grades where athlete_id = ?1 and competition_id = ?2", nativeQuery = true)
     List<Grades> findByAthlete_IdAndCompetition_Id(Integer athleteId,Integer competitionId);
+    @Query(value = "select * from grades where athlete_id = ?1 and competition_id = ?2 and d_grade is not null", nativeQuery = true)
+    List<Grades> findByAthlete_IdAndCompetition_IdAndDGradeNotNull(Integer athleteId,Integer competitionId);
 }

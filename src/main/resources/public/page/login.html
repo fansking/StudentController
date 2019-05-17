@@ -20,7 +20,7 @@
             <div style="font-size: 12px" class="form-group row">
                 <label  class="control-label" style="float:left;width:65px;text-align: right;margin-top: 5px;">密码:</label>
                 <div class="col-lg-11">
-                    <input  class="form-control" type="text" placeholder="请输入密码" ng-model="passWords" style="" >
+                    <input  class="form-control" type="text" placeholder="请输入密码" ng-model="passWords" style="" ng-keypress="keypress($event)">
                 </div>
             </div>
             <button ng-click="logIn()" class="btn btn-primary col-lg-offset-9 col-lg-2">登陆</button>

@@ -10,6 +10,7 @@
         $scope.competitionUrl="http://localhost:8080/competition";
         $scope.athleteCompetitionUrl="http://localhost:8080/athleteCompetition";
         $scope.gradesUrl="http://localhost:8080/grades";
+        $scope.loginUrl="http://localhost:8080/login";
         $scope.findAllTeams=function(){
             $http({
                 method: 'GET',
@@ -31,66 +32,31 @@
             url: '/login',
             cache: false,
             templateUrl: '/page/login.html',
-            // views: {
-            //     '': {
-            //         templateUrl: '/page/home/main.html',
-            //     }
-            // }
         }).state('main', {
             url: '/main',
             cache: false,
             templateUrl: '/page/main.html',
             params:{team:null}
-            // views: {
-            //     '': {
-            //         templateUrl: '/page/home/main.html',
-            //     }
-            // }
         }).state('assignId', {
             url: '/assignId',
             cache: false,
             templateUrl: '/page/assignId.html',
-            // views: {
-            //     '': {
-            //         templateUrl: '/page/home/main.html',
-            //     }
-            // }
         }).state('assignAccount', {
             url: '/assignAccount',
             cache: false,
             templateUrl: '/page/assignAccount.html',
-            // views: {
-            //     '': {
-            //         templateUrl: '/page/home/main.html',
-            //     }
-            // }
         }).state('assignCompetition', {
             url: '/assignCompetition',
             cache: false,
             templateUrl: '/page/assignCompetition.html',
-            // views: {
-            //     '': {
-            //         templateUrl: '/page/home/main.html',
-            //     }
-            // }
         }).state('assignAC', {
             url: '/assignAC',
             cache: false,
             templateUrl: '/page/assignAC.html',
-            // views: {
-            //     '': {
-            //         templateUrl: '/page/home/main.html',
-            //     }
-            // }
         }).state('assignGrade', {
             url: '/assignGrade',
             cache: false,
             templateUrl: '/page/assignGrade.html',
-            // views: {
-            //     '': {
-            //         templateUrl: '/page/home/main.html',
-            //     }
-            // }
         }).state('judge', {
             url: '/judge',
             cache: false,
@@ -101,6 +67,14 @@
             //         templateUrl: '/page/home/main.html',
             //     }
             // }
+        }).state('adminControl', {
+            url: '/adminControl',
+            cache: false,
+            templateUrl: '/page/adminControl.html',
+        }).state('personalRank', {
+            url: '/personalRank',
+            cache: false,
+            templateUrl: '/page/personalRank.html',
         });
 
 

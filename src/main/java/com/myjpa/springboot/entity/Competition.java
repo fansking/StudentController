@@ -4,8 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.myjpa.springboot.entity.dbentity.DBCoaches;
 import com.myjpa.springboot.entity.dbentity.DBCompetition;
 
+import javax.management.openmbean.CompositeType;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -79,6 +82,14 @@ public class Competition implements Serializable {
     }
 
     public Competition() {
+    }
+
+    public static List<Competition> getListCompetition(List<DBCompetition> dbCompetitions){
+        List<Competition> competitions = new ArrayList<>();
+        for(DBCompetition dbCompetition : dbCompetitions){
+            competitions.add(new Competition(dbCompetition));
+        }
+        return competitions;
     }
 
     public Integer getId() {

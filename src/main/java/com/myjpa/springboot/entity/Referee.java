@@ -33,6 +33,14 @@ public class Referee {
         sir = dbReferees.getSir();
     }
 
+    public static List<Referee> getListReferee(List<DBReferees> dbRefereesList){
+        List<Referee> referees = new ArrayList<>();
+        for(DBReferees dbReferees : dbRefereesList){
+            referees.add(new Referee(dbReferees));
+        }
+        return referees;
+    }
+
     public List<Grades> getGrades() {
         return grades;
     }
