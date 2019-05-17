@@ -89,7 +89,7 @@ public class TeamController {
     }
     @ApiOperation(value="新增所有人员")
     @PostMapping("/all")
-    public void referee(@RequestBody Teamrequest re){
+    public void addALL(@RequestBody Teamrequest re){
         if(Setting.runModel == 1) {
             service.addTeamMetaData(re.getAthletes(), re.getLeader(), re.getCoach(), re.getDoctor(), re.getReferee());
         }else {

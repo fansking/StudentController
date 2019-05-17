@@ -116,7 +116,7 @@ public class GradesController {
     }
     @ApiOperation(value="")
     @GetMapping("/findByAthleteCompetition_Id/{competitionId}")
-    public List<Grades> findGradesByAthleteCompetition_Id(@PathVariable Integer competitionId){
+    public List<Grades> findGradesByAthleteCompetitionId(@PathVariable Integer competitionId){
         return gradesRepository.findByCompetition_Id(competitionId);
     }
     @ApiOperation(value="")

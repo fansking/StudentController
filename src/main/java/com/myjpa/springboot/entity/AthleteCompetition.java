@@ -18,6 +18,22 @@ public class AthleteCompetition implements Serializable {
     @Id
     @ManyToOne(targetEntity = Athlete.class,fetch=FetchType.EAGER)
     private Athlete athlete;
+    /**
+     * 参加的小组
+     */
+    private int groupNum;
+
+
+    /**
+     * 获得的成绩
+     */
+    private double score;
+
+
+    /**
+     * 名次
+     */
+    private int athleteRank;
     @OneToMany(mappedBy ="athleteCompetition" ,targetEntity = Grades.class, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Grades> grades;
@@ -51,22 +67,7 @@ public class AthleteCompetition implements Serializable {
     public AthleteCompetition() {
     }
 
-    /**
-     * 参加的小组
-     */
-    private int groupNum;
 
-
-    /**
-     * 获得的成绩
-     */
-    private double score;
-
-
-    /**
-     * 名次
-     */
-    private int athleteRank;
 
 
     public Athlete getAthlete() {
